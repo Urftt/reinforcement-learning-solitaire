@@ -1,47 +1,46 @@
-# Python Project Template
+# Reinforcement Learning: From GridWorld to Solitaire
 
-A comprehensive Python project template optimized for **Claude Code workflows**, designed for personal projects, POCs, and experimental development.
+A hands-on learning project to deeply understand reinforcement learning by implementing algorithms from scratch, progressing from simple grid-based environments to training agents that play Klondike Solitaire.
 
-## 🎯 What Makes This Template Special?
+## 🎯 Project Goals
 
-This template is specifically designed to help **Claude Code understand and maintain your projects across sessions**. It includes:
+**Learning RL fundamentals through implementation:**
 
-- **Documentation structure** that preserves context between CC sessions
-- **Pre-commit hooks** that ensure docs stay in sync with code
-- **Feature and requirement templates** for structured development
-- **Claude Code instructions** to maximize AI assistance effectiveness
+- Build RL algorithms from scratch to understand them deeply
+- Progress from tabular methods (Q-learning) to deep RL (DQN)
+- Create rich visualizations to see what agents are learning
+- Establish clean, reusable code patterns for RL development
 
-Perfect for data scientists and developers who want to push coding agents to their limits!
+**Two-phase approach:**
+1. **Phase 1 - GridWorld**: Master fundamentals with a simple environment
+2. **Phase 2 - Solitaire**: Apply knowledge to a challenging card game
 
 ## ✨ Features
 
+### Phase 1: GridWorld Fundamentals
+- **GridWorld Environment**: Custom Gymnasium-compatible environment
+- **Q-Learning Agent**: Tabular Q-learning from scratch
+- **Rich Visualizations**:
+  - Heatmaps of Q-values evolving over time
+  - Policy visualization (arrows showing agent's learned behavior)
+  - Learning curves (rewards, steps, exploration rate)
+- **Experimentation Framework**: Easy to test different hyperparameters
+
+### Phase 2: Klondike Solitaire (Coming Soon)
+- **Solitaire Environment**: Full Klondike rules with Gymnasium interface
+- **Tabular Methods**: State abstraction for tractable state space
+- **Deep Q-Network (DQN)**: Handle large state spaces with neural networks
+- **Performance Metrics**: Win rates, game length, learning efficiency
+
+### Development Tools
 - **📦 uv**: Ultra-fast Python package management
 - **🔍 Code Quality**: Ruff (linting + formatting) + mypy (type checking)
 - **🧪 Testing**: pytest with coverage reporting
-- **🔄 CI/CD**: GitHub Actions for automated testing and quality checks
-- **📚 Documentation**: Structured docs that help Claude Code understand your project
-- **🪝 Pre-commit Hooks**: Automatic quality checks and documentation reminders
-- **📋 Templates**: Feature and requirements templates for planning work
+- **📊 Visualization**: Matplotlib for RL metrics and learning progress
 
 ## 🚀 Quick Start
 
-### 1. Use This Template
-
-Click "Use this template" on GitHub or:
-
-```bash
-git clone https://github.com/yourusername/python-project-template.git my-new-project
-cd my-new-project
-```
-
-### 2. Customize for Your Project
-
-Edit [`pyproject.toml`](pyproject.toml):
-- Update `name` to your project name
-- Update `description` with what your project does
-- Update `authors` with your information
-
-### 3. Set Up the Environment
+### 1. Set Up the Environment
 
 ```bash
 # Install uv (if not already installed)
@@ -58,78 +57,105 @@ uv run pytest
 uv run ruff check .
 ```
 
-### 4. Fill Out Documentation
-
-**This is crucial for Claude Code to help you effectively!**
-
-Edit these files:
-- [`docs/PROJECT_CONTEXT.md`](docs/PROJECT_CONTEXT.md) - Your project vision and goals
-- [`docs/FEATURES.md`](docs/FEATURES.md) - What you're building
-- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) - Technical decisions
-
-### 5. Start Building!
+### 2. Run Phase 1 - GridWorld
 
 ```bash
-# Create a new feature
-# 1. Plan it: copy docs/templates/FEATURE_TEMPLATE.md to docs/features/
-# 2. Implement it
-# 3. Test it: uv run pytest
-# 4. Commit it (docs will be checked automatically)
+# Train a Q-learning agent on GridWorld
+python -m src.gridworld.train
+
+# Visualize the learned policy
+python -m src.gridworld.visualize
+
+# Run experiments with different hyperparameters
+python -m src.gridworld.experiments
 ```
 
-## 📖 Working with Claude Code
+### 3. Explore the Code
 
-### Starting a New Session
+Start with these files:
+- [src/gridworld/environment.py](src/gridworld/environment.py) - GridWorld environment
+- [src/gridworld/agent.py](src/gridworld/agent.py) - Q-learning agent
+- [src/gridworld/train.py](src/gridworld/train.py) - Training loop
+- [src/visualization/plots.py](src/visualization/plots.py) - Visualization utilities
 
-Tell Claude Code:
+## 📖 Learning Roadmap
 
-> "Please review the docs in `.claude/` and `docs/` to understand the project context before we begin."
+### Phase 1: GridWorld Fundamentals
+**Goal**: Master tabular RL and build visualization toolkit
 
-Or simply:
+1. **Environment Setup**
+   - Implement GridWorld with configurable size, obstacles, rewards
+   - Follow Gymnasium interface for compatibility
 
-> "Read the project docs and confirm you understand where we are."
+2. **Q-Learning Implementation**
+   - Build Q-table from scratch
+   - Implement epsilon-greedy exploration
+   - Understand Bellman updates through visualization
 
-### During Development
+3. **Visualization & Analysis**
+   - Heatmaps of Q-values
+   - Policy arrows
+   - Learning curves (reward per episode, steps to goal)
+   - Exploration rate decay
 
-The template helps Claude Code:
-- **Remember context** from previous sessions via documentation
-- **Make informed decisions** based on your project goals
-- **Maintain code quality** through automated checks
-- **Keep docs updated** via pre-commit prompts
+4. **Experimentation**
+   - Test different learning rates, discount factors
+   - Compare exploration strategies
+   - Understand convergence behavior
 
-### Best Practices
+### Phase 2: Klondike Solitaire
+**Goal**: Apply RL to a real-world challenge
 
-1. **Update docs regularly** - They're CC's memory between sessions
-2. **Use feature templates** - Helps CC understand complex work
-3. **Let pre-commit run** - It reminds CC to update docs
-4. **Review git history** - CC can learn from commit messages
+1. **Game Environment**
+   - Implement Klondike rules
+   - Define state representation
+   - Design reward structure
+
+2. **Tabular Approach**
+   - State abstraction techniques
+   - Feature engineering for tractability
+
+3. **Deep Q-Network (DQN)**
+   - Neural network function approximation
+   - Experience replay
+   - Target network
+
+4. **Advanced Techniques**
+   - Double DQN
+   - Prioritized experience replay
+   - Compare with baseline strategies
 
 ## 📁 Project Structure
 
 ```
 .
-├── .claude/                  # Claude Code instructions
-│   ├── CODE_INSTRUCTIONS.md  # How CC should work in this project
-│   └── README.md             # Overview of .claude directory
-├── .github/
-│   └── workflows/
-│       └── ci.yml            # GitHub Actions CI/CD
-├── docs/
-│   ├── PROJECT_CONTEXT.md    # Project vision and status
-│   ├── FEATURES.md           # Feature tracking
-│   ├── ARCHITECTURE.md       # Technical decisions
-│   ├── features/             # Individual feature docs
-│   ├── requirements/         # Requirements docs
-│   └── templates/            # Templates for docs
-├── scripts/
-│   └── check_docs_update.py  # Pre-commit doc checker
-├── src/                      # Your source code (flat structure)
-│   ├── __init__.py           # Package initialization
-│   └── main.py               # Example module (rename/organize as needed)
+├── src/
+│   ├── gridworld/            # Phase 1: GridWorld implementation
+│   │   ├── environment.py    # GridWorld environment (Gymnasium-compatible)
+│   │   ├── agent.py          # Q-learning agent
+│   │   ├── train.py          # Training loop and experiments
+│   │   └── config.py         # Hyperparameters and configuration
+│   ├── solitaire/            # Phase 2: Solitaire (future)
+│   │   ├── environment.py    # Solitaire environment
+│   │   ├── game.py           # Game logic
+│   │   └── agents/           # Various agent implementations
+│   ├── visualization/        # Visualization utilities
+│   │   ├── plots.py          # Training curves, heatmaps
+│   │   └── animations.py     # Animated visualizations
+│   └── utils/                # Shared utilities
+│       ├── metrics.py        # Performance tracking
+│       └── replay_buffer.py  # For DQN (Phase 2)
 ├── tests/                    # Test suite
-├── .pre-commit-config.yaml   # Pre-commit hooks
-├── pyproject.toml            # Project configuration
-└── README.md                 # This file
+│   ├── test_gridworld.py
+│   └── test_agents.py
+├── docs/                     # Documentation
+│   ├── PROJECT_CONTEXT.md    # Project goals and status
+│   ├── FEATURES.md           # Feature roadmap
+│   └── learning_notes/       # RL concepts and lessons learned
+├── experiments/              # Saved experiments and results
+│   ├── gridworld/            # GridWorld experiment results
+│   └── solitaire/            # Solitaire experiment results
+└── pyproject.toml            # Project configuration
 ```
 
 ## 🛠️ Development Commands

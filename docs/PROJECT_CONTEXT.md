@@ -6,63 +6,89 @@
 ## Project Vision
 
 **What problem does this solve?**
-<!-- Describe the problem or need this project addresses -->
+
+This is a learning project designed to build deep understanding of reinforcement learning algorithms through hands-on implementation. Rather than just reading about RL or using black-box libraries, this project emphasizes building algorithms from scratch to understand the fundamentals.
 
 **What is the end goal?**
-<!-- What does success look like? What should the project ultimately do? -->
+
+Successfully train RL agents to play increasingly complex games:
+1. **Phase 1**: Master RL fundamentals with GridWorld (tabular Q-learning)
+2. **Phase 2**: Build and train an agent for Klondike Solitaire using both tabular and deep RL methods
+
+Success means: understanding RL concepts deeply, having clean reusable code, and achieving measurable performance (win rates, learning curves).
 
 ## Current Status
 
-**Phase**: [Planning / Initial Development / Active Development / Maintenance]
+**Phase**: Planning / Initial Development
 
-**Last Updated**: YYYY-MM-DD
+**Last Updated**: 2026-01-25
 
 **Current Focus**:
-<!-- What are you working on right now? -->
+
+Setting up Phase 1 - GridWorld environment and Q-learning implementation. Establishing project structure, visualization tools, and foundational code patterns that will scale to more complex projects.
 
 **What Works**:
-<!-- List completed functionality -->
-- [ ] Example: Basic project structure set up
+- [x] Project template structure set up
+- [ ] GridWorld environment implemented
+- [ ] Q-learning agent implemented
+- [ ] Visualization tools for learning progress
+- [ ] Basic metrics tracking
 
 **What Doesn't Work Yet**:
-<!-- List known issues or incomplete features -->
-- [ ] Example: Feature X not implemented
+- [ ] Solitaire game environment
+- [ ] Deep RL implementations (DQN, etc.)
+- [ ] Advanced visualization dashboards
 
 ## Project Motivation
 
 **Why this project?**
-<!-- What inspired this? What are you learning? What makes this interesting? -->
+
+Learning by building. Reading papers and watching lectures is valuable, but implementing algorithms from scratch cements understanding. Solitaire is an interesting RL challenge with partial observability, large state spaces, and sparse rewards - perfect for pushing beyond basics.
 
 **Personal Goals**:
-<!-- What do you want to learn or achieve through this project? -->
-- Example: Learn reinforcement learning
-- Example: Practice clean architecture
-- Example: Build a portfolio piece
+- Deeply understand RL fundamentals: value functions, policy learning, exploration vs exploitation
+- Build clean, reusable RL infrastructure (environments, agents, training loops)
+- Master visualization of RL metrics (essential for debugging and understanding)
+- Progress from tabular methods to deep RL (understand why/when to use each)
+- Create a portfolio piece demonstrating RL expertise
 
 ## Constraints & Preferences
 
 **Technical Preferences**:
-<!-- Your coding style, preferred patterns, libraries you like/dislike -->
-- Example: Prefer functional programming style
-- Example: Avoid heavy frameworks
-- Example: Prioritize readability over performance
+- **Code style**: PEP8, clean and readable over clever
+- **Implementation philosophy**: Build from scratch first, use libraries for comparison later
+- **Visualization**: Essential - I'm a visual learner, need to see what's happening
+- **Architecture**: Follow Gymnasium/OpenAI Gym interfaces for environments
+- **Testing**: Important for correctness, especially for RL algorithms
+- **Libraries**: NumPy, Matplotlib for basics; PyTorch for deep RL; Gymnasium for interfaces
 
 **Time Constraints**:
-<!-- Is this a weekend project? Long-term? -->
+Long-term learning project, no hard deadlines. Prefer to do things right over rushing.
 
 **Scope Boundaries**:
-<!-- What is explicitly OUT of scope for this project? -->
+- **In scope**: GridWorld, Klondike Solitaire, Q-learning, SARSA, DQN, visualization tools
+- **Out of scope** (for now): Policy gradients, actor-critic, multi-agent RL, other card games
+- Focus on understanding depth over algorithm breadth
 
 ## Notes for Claude Code
 
 **How I want CC to help**:
-<!-- Specific ways you want Claude Code to assist you -->
-- Example: Help me maintain clean architecture
-- Example: Suggest improvements to code structure
-- Example: Keep documentation up to date
+- Maintain clean, well-structured code following best practices
+- Explain RL concepts as we implement them (I want to learn deeply)
+- Suggest visualizations that help understand what the agent is learning
+- Help debug RL-specific issues (non-converging policies, reward hacking, etc.)
+- Keep documentation updated as the project evolves
+- Recommend good abstractions that will scale from GridWorld to Solitaire
 
 **Things to watch out for**:
-<!-- Common mistakes or patterns to avoid in this project -->
+- Don't add features I didn't ask for - this is a learning project, I want to understand each piece
+- Prioritize correctness over performance (I need to understand the algorithm first)
+- Always implement visualizations alongside algorithms - seeing is understanding
+- Watch for common RL pitfalls: reward scaling, exploration strategy, off-by-one errors in Bellman updates
 
 **Communication preferences**:
-<!-- How detailed should explanations be? When to ask vs. proceed? -->
+- Explain the "why" behind implementation choices, especially RL-specific decisions
+- Show me what we're building before diving into code
+- Use code examples and diagrams when explaining concepts
+- Ask questions if requirements are ambiguous rather than making assumptions
+- I learn best by seeing things visually - suggest visualizations proactively

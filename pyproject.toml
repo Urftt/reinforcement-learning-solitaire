@@ -1,13 +1,18 @@
 [project]
-name = "my-project"  # TODO: Change to your project name (e.g., "my-awesome-app")
+name = "rl-solitaire"
 version = "0.1.0"
-description = "A Python project template optimized for Claude Code workflows"  # TODO: Update description
+description = "Learning reinforcement learning from scratch: GridWorld fundamentals to Klondike Solitaire with deep RL"
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [
-    { name = "Your Name", email = "your.email@example.com" }  # TODO: Update your info
+    { name = "Luck Kleine Schaars", email = "your.email@example.com" }
 ]
-dependencies = []  # Add your project dependencies here
+dependencies = [
+    "numpy>=1.24.0",
+    "matplotlib>=3.7.0",
+    "gymnasium>=0.29.0",
+    "tqdm>=4.65.0",
+]
 
 [project.optional-dependencies]
 dev = [
@@ -16,6 +21,9 @@ dev = [
     "ruff>=0.1.0",
     "mypy>=1.8.0",
     "pre-commit>=3.6.0",
+]
+deep-rl = [
+    "torch>=2.0.0",  # For Phase 2 (DQN) - install later when needed
 ]
 
 [build-system]

@@ -13,6 +13,22 @@
 - **Location**: Root directory
 - **Notes**: Using uv for package management, PEP8 code style
 
+#### 1.1 GridWorld Environment
+- **Completed**: 2026-01-25
+- **Description**: Gymnasium-compatible GridWorld environment with configurable size, obstacles, goals
+- **Location**: [src/gridworld/environment.py](../src/gridworld/environment.py), [src/gridworld/config.py](../src/gridworld/config.py)
+- **Tests**: [tests/test_gridworld.py](../tests/test_gridworld.py) - 25 tests, 99% coverage
+- **Notes**:
+  - Implements full Gymnasium interface (reset, step, render)
+  - Configurable 5x5 grid (default) with customizable size
+  - Single goal, configurable obstacles
+  - Reward structure: goal=+10, obstacle=-10, step=-1 (all configurable)
+  - State: agent (x, y) position
+  - Actions: up (0), down (1), left (2), right (3)
+  - Helper methods for state indexing (useful for Q-table)
+  - Boundary checking prevents agent from moving off grid
+  - Max steps per episode to prevent infinite loops
+
 ---
 
 ### 🚧 In Progress
@@ -22,18 +38,6 @@ _No features currently in progress_
 ---
 
 ### 📋 Planned - Phase 1: GridWorld
-
-#### 1.1 GridWorld Environment
-- **Priority**: High (Next up!)
-- **Description**: Gymnasium-compatible GridWorld environment with configurable size, obstacles, goals
-- **Depends on**: None
-- **Estimated effort**: Small
-- **Notes**:
-  - Start with simple 5x5 grid
-  - Single goal, optional obstacles
-  - Reward structure: goal=+10, obstacle=-10, step=-1
-  - State: agent (x, y) position
-  - Actions: up, down, left, right
 
 #### 1.2 Q-Learning Agent
 - **Priority**: High
@@ -187,7 +191,7 @@ Phase 2: Solitaire (requires Phase 1)
 ## Next Steps
 
 **Immediate priorities**:
-1. [ ] 1.1: Implement GridWorld environment
+1. [x] 1.1: Implement GridWorld environment
 2. [ ] 1.2: Implement Q-learning agent
 3. [ ] 1.3: Build training loop with metrics
 4. [ ] 1.4: Create visualization suite

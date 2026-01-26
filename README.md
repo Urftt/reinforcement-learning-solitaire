@@ -60,23 +60,35 @@ uv run ruff check .
 ### 2. Run Phase 1 - GridWorld
 
 ```bash
-# Train a Q-learning agent on GridWorld
-python -m src.gridworld.train
+# Play GridWorld with GUI (Tkinter - works great on macOS!)
+uv run play_gridworld_tkinter.py                    # Medium difficulty (default)
+uv run play_gridworld_tkinter.py --difficulty easy  # 5x5, no obstacles
+uv run play_gridworld_tkinter.py --difficulty hard  # 7x7, 6 obstacles
 
-# Visualize the learned policy
-python -m src.gridworld.visualize
+# Or play in terminal (text-based, works anywhere)
+uv run play_gridworld_terminal.py
+uv run play_gridworld_terminal.py --difficulty easy
 
-# Run experiments with different hyperparameters
-python -m src.gridworld.experiments
+# Watch a random agent (see baseline performance)
+uv run python -m src.gridworld.train
+
+# Train a Q-learning agent (coming soon in Feature 1.2)
+# uv run python -m src.gridworld.train --agent qlearning
+
+# Visualize the learned policy (coming soon in Feature 1.4)
+# uv run python -m src.gridworld.visualize
 ```
 
 ### 3. Explore the Code
 
 Start with these files:
-- [src/gridworld/environment.py](src/gridworld/environment.py) - GridWorld environment
-- [src/gridworld/agent.py](src/gridworld/agent.py) - Q-learning agent
-- [src/gridworld/train.py](src/gridworld/train.py) - Training loop
-- [src/visualization/plots.py](src/visualization/plots.py) - Visualization utilities
+- [play_gridworld_tkinter.py](play_gridworld_tkinter.py) - Entry point for GUI game (Tkinter)
+- [src/gridworld/play_tkinter.py](src/gridworld/play_tkinter.py) - Tkinter renderer and game loop
+- [src/gridworld/play.py](src/gridworld/play.py) - Terminal-based gameplay
+- [src/gridworld/environment.py](src/gridworld/environment.py) - GridWorld environment (Gymnasium-compatible)
+- [src/gridworld/config.py](src/gridworld/config.py) - Configuration for environment and agents
+- [src/gridworld/train.py](src/gridworld/train.py) - Training demo (random agent for now)
+- [src/gridworld/agent.py](src/gridworld/agent.py) - Q-learning agent (coming in Feature 1.2)
 
 ## 📖 Learning Roadmap
 

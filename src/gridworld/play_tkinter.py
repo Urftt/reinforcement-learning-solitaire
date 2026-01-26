@@ -31,7 +31,7 @@ class GridWorldTkinterRenderer:
         env: GridWorldEnv,
         cell_size: int = 80,
         show_trail: bool = True,
-        master: tk.Tk | None = None
+        master: tk.Tk | None = None,
     ):
         """Initialize the Tkinter renderer.
 
@@ -71,7 +71,7 @@ class GridWorldTkinterRenderer:
             width=grid_width,
             height=grid_height,
             bg=self.COLORS["background"],
-            highlightthickness=0
+            highlightthickness=0,
         )
         self.canvas.pack()
 
@@ -90,7 +90,7 @@ class GridWorldTkinterRenderer:
             justify=tk.LEFT,
             anchor="w",
             padx=10,
-            pady=10
+            pady=10,
         )
         self.stats_label.pack(fill=tk.BOTH, expand=True)
 
@@ -109,7 +109,7 @@ class GridWorldTkinterRenderer:
         total_reward: float = 0.0,
         last_reward: float | None = None,
         episode: int = 1,
-        message: str | None = None
+        message: str | None = None,
     ):
         """Render the current state.
 
@@ -128,14 +128,22 @@ class GridWorldTkinterRenderer:
             # Vertical lines
             x = i * self.cell_size
             self.canvas.create_line(
-                x, 0, x, self.config.grid_size * self.cell_size,
-                fill=self.COLORS["grid_line"], width=1
+                x,
+                0,
+                x,
+                self.config.grid_size * self.cell_size,
+                fill=self.COLORS["grid_line"],
+                width=1,
             )
             # Horizontal lines
             y = i * self.cell_size
             self.canvas.create_line(
-                0, y, self.config.grid_size * self.cell_size, y,
-                fill=self.COLORS["grid_line"], width=1
+                0,
+                y,
+                self.config.grid_size * self.cell_size,
+                y,
+                fill=self.COLORS["grid_line"],
+                width=1,
             )
 
         # Draw trail
@@ -157,11 +165,7 @@ class GridWorldTkinterRenderer:
                 else:
                     color = self.COLORS["trail"]  # Trail blue
 
-                self.canvas.create_rectangle(
-                    x1, y1, x2, y2,
-                    fill=color,
-                    outline=""
-                )
+                self.canvas.create_rectangle(x1, y1, x2, y2, fill=color, outline="")
 
         # Draw obstacles
         for ox, oy in self.config.obstacles:
@@ -171,10 +175,7 @@ class GridWorldTkinterRenderer:
             y2 = (oy + 1) * self.cell_size - 5
 
             self.canvas.create_rectangle(
-                x1, y1, x2, y2,
-                fill=self.COLORS["obstacle"],
-                outline="darkred",
-                width=2
+                x1, y1, x2, y2, fill=self.COLORS["obstacle"], outline="darkred", width=2
             )
 
             # Draw X
@@ -184,14 +185,16 @@ class GridWorldTkinterRenderer:
                 oy * self.cell_size + margin,
                 (ox + 1) * self.cell_size - margin,
                 (oy + 1) * self.cell_size - margin,
-                fill="white", width=3
+                fill="white",
+                width=3,
             )
             self.canvas.create_line(
                 (ox + 1) * self.cell_size - margin,
                 oy * self.cell_size + margin,
                 ox * self.cell_size + margin,
                 (oy + 1) * self.cell_size - margin,
-                fill="white", width=3
+                fill="white",
+                width=3,
             )
 
         # Draw goal
@@ -201,17 +204,16 @@ class GridWorldTkinterRenderer:
         radius = self.cell_size // 3
 
         self.canvas.create_oval(
-            center_x - radius, center_y - radius,
-            center_x + radius, center_y + radius,
+            center_x - radius,
+            center_y - radius,
+            center_x + radius,
+            center_y + radius,
             fill=self.COLORS["goal"],
             outline="darkgreen",
-            width=2
+            width=2,
         )
         self.canvas.create_text(
-            center_x, center_y,
-            text="G",
-            font=("Arial", 24, "bold"),
-            fill="white"
+            center_x, center_y, text="G", font=("Arial", 24, "bold"), fill="white"
         )
 
         # Draw agent
@@ -231,22 +233,23 @@ class GridWorldTkinterRenderer:
             radius = self.cell_size // 3
 
             self.canvas.create_oval(
-                center_x - radius, center_y - radius,
-                center_x + radius, center_y + radius,
+                center_x - radius,
+                center_y - radius,
+                center_x + radius,
+                center_y + radius,
                 fill=self.COLORS["agent"],
                 outline="darkblue",
-                width=2
+                width=2,
             )
             self.canvas.create_text(
-                center_x, center_y,
-                text="A",
-                font=("Arial", 24, "bold"),
-                fill="white"
+                center_x, center_y, text="A", font=("Arial", 24, "bold"), fill="white"
             )
 
         # Update stats with better formatting
         stats_lines = []
-        stats_lines.append(f"Episode: {episode}    Steps: {step_count}    Total Reward: {total_reward:+.2f}")
+        stats_lines.append(
+            f"Episode: {episode}    Steps: {step_count}    Total Reward: {total_reward:+.2f}"
+        )
 
         if last_reward is not None:
             reward_indicator = "✓" if last_reward > 0 else ("✗" if last_reward < 0 else "→")
@@ -272,17 +275,17 @@ class GridWorldTkinterRenderer:
 
         # Map keys to actions
         action_map = {
-            'up': 'up',
-            'w': 'up',
-            'down': 'down',
-            's': 'down',
-            'left': 'left',
-            'a': 'left',
-            'right': 'right',
-            'd': 'right',
-            'r': 'restart',
-            'q': 'quit',
-            'escape': 'quit',
+            "up": "up",
+            "w": "up",
+            "down": "down",
+            "s": "down",
+            "left": "left",
+            "a": "left",
+            "right": "right",
+            "d": "right",
+            "r": "restart",
+            "q": "quit",
+            "escape": "quit",
         }
 
         self.current_action = action_map.get(key)
@@ -315,8 +318,7 @@ class GridWorldTkinterRenderer:
 
 
 def play_gridworld_tkinter(
-    config: GridWorldConfig | None = None,
-    difficulty: Literal["easy", "medium", "hard"] = "medium"
+    config: GridWorldConfig | None = None, difficulty: Literal["easy", "medium", "hard"] = "medium"
 ):
     """Interactive GridWorld game with Tkinter graphics.
 
@@ -332,7 +334,7 @@ def play_gridworld_tkinter(
                 start_pos=(0, 0),
                 goal_pos=(4, 4),
                 obstacles=[],  # No obstacles
-                max_steps=50
+                max_steps=50,
             )
         elif difficulty == "medium":
             config = GridWorldConfig(
@@ -340,7 +342,7 @@ def play_gridworld_tkinter(
                 start_pos=(0, 0),
                 goal_pos=(4, 4),
                 obstacles=[(2, 2), (3, 1)],
-                max_steps=50
+                max_steps=50,
             )
         else:  # hard
             config = GridWorldConfig(
@@ -348,7 +350,7 @@ def play_gridworld_tkinter(
                 start_pos=(0, 0),
                 goal_pos=(6, 6),
                 obstacles=[(2, 2), (3, 1), (4, 4), (5, 3), (1, 5), (3, 5)],
-                max_steps=100
+                max_steps=100,
             )
 
     # Create environment and renderer
@@ -364,10 +366,10 @@ def play_gridworld_tkinter(
 
     print(f"\n{'=' * 60}")
     print(f"GridWorld - {difficulty.upper()} Mode (Tkinter)")
-    print('=' * 60)
+    print("=" * 60)
     print("Game window opened! Use arrow keys or WASD to move.")
     print("Press R to restart, Q or ESC to quit.")
-    print('=' * 60)
+    print("=" * 60)
 
     # Initial render
     renderer.render(
@@ -375,7 +377,7 @@ def play_gridworld_tkinter(
         total_reward=total_reward,
         last_reward=last_reward,
         episode=episode,
-        message=message
+        message=message,
     )
 
     # Game state tracking
@@ -392,11 +394,11 @@ def play_gridworld_tkinter(
         # Check for action
         action_str = renderer.get_action()
 
-        if action_str == 'quit':
+        if action_str == "quit":
             renderer.close()
             return
 
-        if action_str == 'restart':
+        if action_str == "restart":
             # Restart episode
             episode += 1
             total_reward = 0.0
@@ -411,7 +413,7 @@ def play_gridworld_tkinter(
                 total_reward=total_reward,
                 last_reward=last_reward,
                 episode=episode,
-                message=message
+                message=message,
             )
             # Schedule next step
             renderer.root.after(10, game_step)
@@ -420,10 +422,10 @@ def play_gridworld_tkinter(
         # Only process movement if game is not over
         if action_str and not game_over[0]:
             action_map = {
-                'up': GridWorldEnv.UP,
-                'down': GridWorldEnv.DOWN,
-                'left': GridWorldEnv.LEFT,
-                'right': GridWorldEnv.RIGHT,
+                "up": GridWorldEnv.UP,
+                "down": GridWorldEnv.DOWN,
+                "left": GridWorldEnv.LEFT,
+                "right": GridWorldEnv.RIGHT,
             }
             action = action_map.get(action_str)
 
@@ -436,34 +438,47 @@ def play_gridworld_tkinter(
                 # Update message based on outcome
                 if terminated:
                     game_over[0] = True
-                    if info['is_goal']:
+                    if info["is_goal"]:
                         # Calculate efficiency
-                        optimal_steps = abs(config.goal_pos[0] - config.start_pos[0]) + \
-                                       abs(config.goal_pos[1] - config.start_pos[1])
+                        optimal_steps = abs(config.goal_pos[0] - config.start_pos[0]) + abs(
+                            config.goal_pos[1] - config.start_pos[1]
+                        )
 
-                        if info['step_count'] == optimal_steps:
-                            message = f"PERFECT! Optimal path in {info['step_count']} steps! Press R to restart."
-                        elif info['step_count'] <= optimal_steps + 3:
-                            message = f"EXCELLENT! Goal in {info['step_count']} steps! (Optimal: {optimal_steps}) Press R."
+                        if info["step_count"] == optimal_steps:
+                            message = (
+                                f"PERFECT! Optimal path in {info['step_count']} steps! "
+                                "Press R to restart."
+                            )
+                        elif info["step_count"] <= optimal_steps + 3:
+                            message = (
+                                f"EXCELLENT! Goal in {info['step_count']} steps! "
+                                f"(Optimal: {optimal_steps}) Press R."
+                            )
                         else:
-                            message = f"Goal reached in {info['step_count']} steps! (Optimal: {optimal_steps}) Press R."
+                            message = (
+                                f"Goal reached in {info['step_count']} steps! "
+                                f"(Optimal: {optimal_steps}) Press R."
+                            )
 
-                    elif info['is_obstacle']:
-                        message = f"Hit obstacle! Survived {info['step_count']} steps. Press R to restart."
+                    elif info["is_obstacle"]:
+                        message = (
+                            f"Hit obstacle! Survived {info['step_count']} steps. "
+                            "Press R to restart."
+                        )
 
                 elif truncated:
                     game_over[0] = True
-                    message = f"Time's up! Max steps reached. Press R to restart."
+                    message = "Time's up! Max steps reached. Press R to restart."
                 else:
                     message = None  # Clear message during gameplay
 
                 # Render
                 renderer.render(
-                    step_count=info['step_count'],
+                    step_count=info["step_count"],
                     total_reward=total_reward,
                     last_reward=last_reward,
                     episode=episode,
-                    message=message
+                    message=message,
                 )
 
         # Schedule next step (10ms = ~100 FPS for responsiveness)
@@ -487,10 +502,10 @@ def main():
 
     parser = argparse.ArgumentParser(description="Play GridWorld with Tkinter graphics!")
     parser.add_argument(
-        '--difficulty',
-        choices=['easy', 'medium', 'hard'],
-        default='medium',
-        help='Difficulty level (default: medium)'
+        "--difficulty",
+        choices=["easy", "medium", "hard"],
+        default="medium",
+        help="Difficulty level (default: medium)",
     )
     args = parser.parse_args()
 

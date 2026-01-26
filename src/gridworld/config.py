@@ -17,6 +17,7 @@ class GridWorldConfig:
         step_penalty: Penalty for each step taken
         max_steps: Maximum steps per episode (prevent infinite loops)
     """
+
     grid_size: int = 5
     start_pos: tuple[int, int] = (0, 0)
     goal_pos: tuple[int, int] = (4, 4)
@@ -32,18 +33,17 @@ class GridWorldConfig:
             self.obstacles = []
 
         # Validate positions are within grid
-        if not (0 <= self.start_pos[0] < self.grid_size and
-                0 <= self.start_pos[1] < self.grid_size):
+        if not (
+            0 <= self.start_pos[0] < self.grid_size and 0 <= self.start_pos[1] < self.grid_size
+        ):
             raise ValueError(f"Start position {self.start_pos} outside grid")
 
-        if not (0 <= self.goal_pos[0] < self.grid_size and
-                0 <= self.goal_pos[1] < self.grid_size):
+        if not (0 <= self.goal_pos[0] < self.grid_size and 0 <= self.goal_pos[1] < self.grid_size):
             raise ValueError(f"Goal position {self.goal_pos} outside grid")
 
         # Validate obstacles
         for obs in self.obstacles:
-            if not (0 <= obs[0] < self.grid_size and
-                    0 <= obs[1] < self.grid_size):
+            if not (0 <= obs[0] < self.grid_size and 0 <= obs[1] < self.grid_size):
                 raise ValueError(f"Obstacle position {obs} outside grid")
 
         # Ensure start != goal
@@ -63,6 +63,7 @@ class QLearningConfig:
         epsilon_decay: Decay rate for epsilon
         num_episodes: Number of training episodes
     """
+
     learning_rate: float = 0.1
     discount_factor: float = 0.99
     epsilon_start: float = 1.0

@@ -161,11 +161,7 @@ class TestGridWorldEnv:
 
     def test_hit_obstacle(self):
         """Test that hitting obstacle gives correct penalty and terminates."""
-        config = GridWorldConfig(
-            start_pos=(1, 2),
-            goal_pos=(4, 4),
-            obstacles=[(2, 2)]
-        )
+        config = GridWorldConfig(start_pos=(1, 2), goal_pos=(4, 4), obstacles=[(2, 2)])
         env = GridWorldEnv(config)
         env.reset()
 
@@ -179,11 +175,7 @@ class TestGridWorldEnv:
 
     def test_max_steps_truncation(self):
         """Test that episode truncates after max steps."""
-        config = GridWorldConfig(
-            start_pos=(0, 0),
-            goal_pos=(4, 4),
-            max_steps=3
-        )
+        config = GridWorldConfig(start_pos=(0, 0), goal_pos=(4, 4), max_steps=3)
         env = GridWorldEnv(config)
         env.reset()
 
@@ -240,20 +232,16 @@ class TestGridWorldEnv:
 
     def test_render(self):
         """Test that render doesn't crash."""
-        config = GridWorldConfig(
-            start_pos=(0, 0),
-            goal_pos=(4, 4),
-            obstacles=[(2, 2)]
-        )
+        config = GridWorldConfig(start_pos=(0, 0), goal_pos=(4, 4), obstacles=[(2, 2)])
         env = GridWorldEnv(config)
         env.reset()
 
         # Just check it doesn't crash
         result = env.render()
         assert isinstance(result, str)
-        assert 'A' in result  # Agent
-        assert 'G' in result  # Goal
-        assert 'X' in result  # Obstacle
+        assert "A" in result  # Agent
+        assert "G" in result  # Goal
+        assert "X" in result  # Obstacle
 
     def test_multiple_episodes(self):
         """Test running multiple episodes."""

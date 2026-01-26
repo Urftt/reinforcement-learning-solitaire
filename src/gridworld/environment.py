@@ -47,10 +47,7 @@ class GridWorldEnv(gym.Env):
 
         # Observation space: (x, y) position
         self.observation_space = spaces.Box(
-            low=0,
-            high=self.config.grid_size - 1,
-            shape=(2,),
-            dtype=np.int32
+            low=0, high=self.config.grid_size - 1, shape=(2,), dtype=np.int32
         )
 
         # Internal state
@@ -61,9 +58,7 @@ class GridWorldEnv(gym.Env):
         self._obstacles_set = set(self.config.obstacles)
 
     def reset(
-        self,
-        seed: int | None = None,
-        options: dict[str, Any] | None = None
+        self, seed: int | None = None, options: dict[str, Any] | None = None
     ) -> tuple[np.ndarray, dict[str, Any]]:
         """Reset the environment to initial state.
 
@@ -153,21 +148,21 @@ class GridWorldEnv(gym.Env):
             Grid representation as string (if render_mode is 'human')
         """
         # Create grid representation
-        grid = np.full((self.config.grid_size, self.config.grid_size), '·', dtype=str)
+        grid = np.full((self.config.grid_size, self.config.grid_size), "·", dtype=str)
 
         # Mark obstacles
         for obs in self.config.obstacles:
-            grid[obs[1], obs[0]] = 'X'
+            grid[obs[1], obs[0]] = "X"
 
         # Mark goal
-        grid[self.config.goal_pos[1], self.config.goal_pos[0]] = 'G'
+        grid[self.config.goal_pos[1], self.config.goal_pos[0]] = "G"
 
         # Mark agent (overwrites goal if agent is on it)
         if self.agent_pos is not None:
-            grid[self.agent_pos[1], self.agent_pos[0]] = 'A'
+            grid[self.agent_pos[1], self.agent_pos[0]] = "A"
 
         # Convert to string
-        grid_str = '\n'.join(' '.join(row) for row in grid)
+        grid_str = "\n".join(" ".join(row) for row in grid)
         grid_str = f"\nStep: {self.step_count}\n{grid_str}\n"
 
         print(grid_str)

@@ -17,14 +17,14 @@ def get_action_from_key(key: str) -> int | None:
         Action integer or None if invalid
     """
     key_map = {
-        'w': GridWorldEnv.UP,
-        'a': GridWorldEnv.LEFT,
-        's': GridWorldEnv.DOWN,
-        'd': GridWorldEnv.RIGHT,
-        '8': GridWorldEnv.UP,
-        '4': GridWorldEnv.LEFT,
-        '2': GridWorldEnv.DOWN,
-        '6': GridWorldEnv.RIGHT,
+        "w": GridWorldEnv.UP,
+        "a": GridWorldEnv.LEFT,
+        "s": GridWorldEnv.DOWN,
+        "d": GridWorldEnv.RIGHT,
+        "8": GridWorldEnv.UP,
+        "4": GridWorldEnv.LEFT,
+        "2": GridWorldEnv.DOWN,
+        "6": GridWorldEnv.RIGHT,
     }
     return key_map.get(key.lower())
 
@@ -52,10 +52,7 @@ def print_instructions():
 
 
 def print_stats(
-    episode: int,
-    step_count: int,
-    total_reward: float,
-    last_reward: float | None = None
+    episode: int, step_count: int, total_reward: float, last_reward: float | None = None
 ):
     """Print current game statistics.
 
@@ -72,8 +69,7 @@ def print_stats(
 
 
 def play_gridworld(
-    config: GridWorldConfig | None = None,
-    difficulty: Literal["easy", "medium", "hard"] = "medium"
+    config: GridWorldConfig | None = None, difficulty: Literal["easy", "medium", "hard"] = "medium"
 ):
     """Interactive GridWorld game.
 
@@ -89,7 +85,7 @@ def play_gridworld(
                 start_pos=(0, 0),
                 goal_pos=(4, 4),
                 obstacles=[],  # No obstacles
-                max_steps=50
+                max_steps=50,
             )
         elif difficulty == "medium":
             config = GridWorldConfig(
@@ -97,7 +93,7 @@ def play_gridworld(
                 start_pos=(0, 0),
                 goal_pos=(4, 4),
                 obstacles=[(2, 2), (3, 1)],
-                max_steps=50
+                max_steps=50,
             )
         else:  # hard
             config = GridWorldConfig(
@@ -105,7 +101,7 @@ def play_gridworld(
                 start_pos=(0, 0),
                 goal_pos=(6, 6),
                 obstacles=[(2, 2), (3, 1), (4, 4), (5, 3), (1, 5), (3, 5)],
-                max_steps=100
+                max_steps=100,
             )
 
     env = GridWorldEnv(config)
@@ -114,9 +110,11 @@ def play_gridworld(
     print(f"\nDifficulty: {difficulty.upper()}")
     print(f"Grid size: {config.grid_size}x{config.grid_size}")
     print(f"Obstacles: {len(config.obstacles)}")
-    print(f"\nRewards: Goal={config.goal_reward:+.0f}, "
-          f"Obstacle={config.obstacle_penalty:+.0f}, "
-          f"Step={config.step_penalty:+.0f}")
+    print(
+        f"\nRewards: Goal={config.goal_reward:+.0f}, "
+        f"Obstacle={config.obstacle_penalty:+.0f}, "
+        f"Step={config.step_penalty:+.0f}"
+    )
 
     episode = 1
     total_reward = 0.0
@@ -140,11 +138,11 @@ def play_gridworld(
             continue
 
         # Handle special commands
-        if user_input.lower() == 'q':
+        if user_input.lower() == "q":
             print("\n👋 Thanks for playing!")
             break
 
-        if user_input.lower() == 'r':
+        if user_input.lower() == "r":
             print("\n🔄 Restarting episode...")
             episode += 1
             total_reward = 0.0
@@ -165,11 +163,11 @@ def play_gridworld(
 
         # Render environment
         env.render()
-        print_stats(episode, info['step_count'], total_reward, reward)
+        print_stats(episode, info["step_count"], total_reward, reward)
 
         # Check if episode ended
         if terminated:
-            if info['is_goal']:
+            if info["is_goal"]:
                 print("\n" + "=" * 60)
                 print("🎯 CONGRATULATIONS! You reached the goal!")
                 print(f"   Final score: {total_reward:.1f}")
@@ -177,16 +175,17 @@ def play_gridworld(
                 print("=" * 60)
 
                 # Calculate efficiency
-                optimal_steps = abs(config.goal_pos[0] - config.start_pos[0]) + \
-                               abs(config.goal_pos[1] - config.start_pos[1])
-                if info['step_count'] == optimal_steps:
+                optimal_steps = abs(config.goal_pos[0] - config.start_pos[0]) + abs(
+                    config.goal_pos[1] - config.start_pos[1]
+                )
+                if info["step_count"] == optimal_steps:
                     print("⭐ PERFECT! You found the optimal path!")
-                elif info['step_count'] <= optimal_steps + 3:
+                elif info["step_count"] <= optimal_steps + 3:
                     print("✨ Excellent! Very efficient path!")
                 else:
                     print(f"💡 Hint: The optimal path is {optimal_steps} steps")
 
-            elif info['is_obstacle']:
+            elif info["is_obstacle"]:
                 print("\n" + "=" * 60)
                 print("💥 OUCH! You hit an obstacle!")
                 print(f"   Final score: {total_reward:.1f}")
@@ -195,22 +194,22 @@ def play_gridworld(
 
             # Ask to continue
             choice = input("\nPlay again? (y/n/d=change difficulty): ").strip().lower()
-            if choice == 'n':
+            if choice == "n":
                 print("\n👋 Thanks for playing!")
                 break
-            elif choice == 'd':
+            elif choice == "d":
                 print("\nChoose difficulty:")
                 print("  1. Easy   (5x5, no obstacles)")
                 print("  2. Medium (5x5, 2 obstacles)")
                 print("  3. Hard   (7x7, 6 obstacles)")
                 diff_choice = input("Select (1/2/3): ").strip()
 
-                if diff_choice == '1':
-                    difficulty = 'easy'
-                elif diff_choice == '3':
-                    difficulty = 'hard'
+                if diff_choice == "1":
+                    difficulty = "easy"
+                elif diff_choice == "3":
+                    difficulty = "hard"
                 else:
-                    difficulty = 'medium'
+                    difficulty = "medium"
 
                 # Restart with new difficulty
                 return play_gridworld(difficulty=difficulty)
@@ -231,7 +230,7 @@ def play_gridworld(
 
             # Ask to continue
             choice = input("\nTry again? (y/n): ").strip().lower()
-            if choice != 'y':
+            if choice != "y":
                 print("\n👋 Thanks for playing!")
                 break
 
@@ -249,10 +248,10 @@ def main():
 
     parser = argparse.ArgumentParser(description="Play GridWorld manually")
     parser.add_argument(
-        '--difficulty',
-        choices=['easy', 'medium', 'hard'],
-        default='medium',
-        help='Difficulty level (default: medium)'
+        "--difficulty",
+        choices=["easy", "medium", "hard"],
+        default="medium",
+        help="Difficulty level (default: medium)",
     )
     args = parser.parse_args()
 

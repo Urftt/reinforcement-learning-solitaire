@@ -4,8 +4,6 @@ This will be replaced with actual training code in Feature 1.2.
 For now, it demonstrates the environment with a random policy.
 """
 
-import numpy as np
-
 from src.gridworld.config import GridWorldConfig
 from src.gridworld.environment import GridWorldEnv
 
@@ -18,11 +16,7 @@ def demo_random_agent(num_episodes: int = 3):
     """
     # Create environment with some obstacles
     config = GridWorldConfig(
-        grid_size=5,
-        start_pos=(0, 0),
-        goal_pos=(4, 4),
-        obstacles=[(2, 2), (3, 1)],
-        max_steps=50
+        grid_size=5, start_pos=(0, 0), goal_pos=(4, 4), obstacles=[(2, 2), (3, 1)], max_steps=50
     )
 
     env = GridWorldEnv(config)
@@ -34,7 +28,7 @@ def demo_random_agent(num_episodes: int = 3):
     print(f"Start: {config.start_pos}")
     print(f"Goal: {config.goal_pos}")
     print(f"Obstacles: {config.obstacles}")
-    print(f"\nRewards:")
+    print("\nRewards:")
     print(f"  Goal: {config.goal_reward}")
     print(f"  Obstacle: {config.obstacle_penalty}")
     print(f"  Step: {config.step_penalty}")
@@ -45,7 +39,7 @@ def demo_random_agent(num_episodes: int = 3):
     for episode in range(num_episodes):
         print(f"\n{'=' * 50}")
         print(f"Episode {episode + 1}")
-        print('=' * 50)
+        print("=" * 50)
 
         obs, info = env.reset(seed=42 + episode)
         print("\nInitial state:")
@@ -78,7 +72,7 @@ def demo_random_agent(num_episodes: int = 3):
             elif truncated:
                 print("\n⏱️  Max steps reached!")
 
-        print(f"\nEpisode summary:")
+        print("\nEpisode summary:")
         print(f"  Total steps: {step_count}")
         print(f"  Total reward: {total_reward:.1f}")
 

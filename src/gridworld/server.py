@@ -116,6 +116,18 @@ async def training_loop(env_config: dict, agent_config: dict, num_episodes: int)
             step = 0
             done = False
 
+            # Broadcast at episode start to ensure updates happen
+            await manager.broadcast({
+                "type": "training_update",
+                "data": {
+                    "episode": episode + 1,
+                    "step": step,
+                    "agent_pos": [int(x) for x in obs],  # Convert numpy types to Python int
+                    "epsilon": float(agent.epsilon),
+                },
+            })
+            last_broadcast_time = time.time()
+
             while not done and step < max_steps:
                 # Agent selects action
                 action = agent.select_action(state)
@@ -140,7 +152,7 @@ async def training_loop(env_config: dict, agent_config: dict, num_episodes: int)
                         "data": {
                             "episode": episode + 1,
                             "step": step,
-                            "agent_pos": list(next_obs),
+                            "agent_pos": [int(x) for x in next_obs],  # Convert numpy types to Python int
                             "epsilon": float(agent.epsilon),
                         },
                     })

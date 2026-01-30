@@ -196,8 +196,13 @@ class GridRenderer {
     }
 
     startAnimationLoop() {
+        let frameCount = 0;
         const animate = () => {
             this.render();
+            frameCount++;
+            if (frameCount % 60 === 0) {  // Log every 60 frames (~1 second)
+                console.log('[Renderer] Animation loop running, agent_pos:', this.state.agent_pos);
+            }
             requestAnimationFrame(animate);
         };
         animate();
@@ -390,10 +395,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Register WebSocket event handlers
     wsClient.on('training_update', (data) => {
+        console.log('[Frontend] Received training_update:', data);
+
         // Update renderer state
         renderer.update({
             agent_pos: data.agent_pos
         });
+
+        console.log('[Frontend] Renderer state after update:', renderer.state.agent_pos);
 
         // Update counters
         document.getElementById('episode-counter').textContent = data.episode;

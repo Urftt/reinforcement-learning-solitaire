@@ -117,7 +117,7 @@ async def training_loop(env_config: dict, agent_config: dict, num_episodes: int)
             done = False
 
             # Broadcast at episode start to ensure updates happen
-            await manager.broadcast({
+            broadcast_data = {
                 "type": "training_update",
                 "data": {
                     "episode": episode + 1,
@@ -125,7 +125,9 @@ async def training_loop(env_config: dict, agent_config: dict, num_episodes: int)
                     "agent_pos": [int(x) for x in obs],  # Convert numpy types to Python int
                     "epsilon": float(agent.epsilon),
                 },
-            })
+            }
+            print(f"[Episode {episode + 1}] Broadcasting start: agent_pos={broadcast_data['data']['agent_pos']}")
+            await manager.broadcast(broadcast_data)
             last_broadcast_time = time.time()
 
             while not done and step < max_steps:
@@ -147,7 +149,7 @@ async def training_loop(env_config: dict, agent_config: dict, num_episodes: int)
                 # Time-based broadcasting (VIZ-04): every 100ms
                 current_time = time.time()
                 if (current_time - last_broadcast_time) >= 0.1:
-                    await manager.broadcast({
+                    broadcast_data = {
                         "type": "training_update",
                         "data": {
                             "episode": episode + 1,
@@ -155,7 +157,9 @@ async def training_loop(env_config: dict, agent_config: dict, num_episodes: int)
                             "agent_pos": [int(x) for x in next_obs],  # Convert numpy types to Python int
                             "epsilon": float(agent.epsilon),
                         },
-                    })
+                    }
+                    print(f"[Episode {episode + 1} Step {step}] Broadcasting: agent_pos={broadcast_data['data']['agent_pos']}")
+                    await manager.broadcast(broadcast_data)
                     last_broadcast_time = current_time
 
             # After episode: decay epsilon

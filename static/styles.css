@@ -1,0 +1,305 @@
+/**
+ * GridWorld RL Training Interface Styles
+ * Clean, minimal design with flat colors and simple layouts
+ */
+
+/* ============================================================================
+   CSS Reset & Base Styles
+   ============================================================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #fafafa;
+    overflow-x: hidden;
+}
+
+/* ============================================================================
+   Layout
+   ============================================================================ */
+
+.container {
+    display: flex;
+    min-height: 100vh;
+    gap: 0;
+}
+
+.main-content {
+    flex: 1;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.grid-section {
+    text-align: center;
+}
+
+.grid-section h1 {
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    color: #222;
+}
+
+/* ============================================================================
+   Canvas Grid
+   ============================================================================ */
+
+#grid-canvas {
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    background-color: #fff;
+    display: block;
+    margin: 0 auto;
+}
+
+/* ============================================================================
+   Status Display
+   ============================================================================ */
+
+.status-display {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.status-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.status-label {
+    font-weight: 500;
+    color: #666;
+}
+
+.status-value {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    min-width: 3rem;
+    text-align: right;
+}
+
+/* ============================================================================
+   Sidebar Controls
+   ============================================================================ */
+
+.sidebar {
+    width: 320px;
+    background-color: #f5f5f5;
+    padding: 2rem;
+    border-left: 1px solid #e0e0e0;
+    overflow-y: auto;
+}
+
+.controls-section h2 {
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    color: #222;
+}
+
+/* ============================================================================
+   Action Buttons
+   ============================================================================ */
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.btn {
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+    text-align: center;
+}
+
+.btn:hover:not(:disabled) {
+    opacity: 0.9;
+}
+
+.btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.btn-primary {
+    background-color: #4caf50;
+    color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: #45a049;
+}
+
+.btn-secondary {
+    background-color: #ff6b6b;
+    color: white;
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background-color: #ff5252;
+}
+
+.btn-tertiary {
+    background-color: #757575;
+    color: white;
+}
+
+.btn-tertiary:hover:not(:disabled) {
+    background-color: #616161;
+}
+
+/* ============================================================================
+   Parameters Section
+   ============================================================================ */
+
+.parameters-section {
+    margin-top: 1.5rem;
+}
+
+.parameters-section h3 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.param-group {
+    margin-bottom: 1.5rem;
+}
+
+.param-group label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 0.5rem;
+}
+
+.input-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+input[type="range"] {
+    flex: 1;
+    height: 6px;
+    background: #ddd;
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #4caf50;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: #4caf50;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+}
+
+input[type="number"] {
+    width: 70px;
+    padding: 0.4rem;
+    font-size: 0.9rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: center;
+}
+
+input[type="number"]:focus {
+    outline: none;
+    border-color: #4caf50;
+}
+
+/* ============================================================================
+   Preset Buttons
+   ============================================================================ */
+
+.preset-buttons {
+    margin-top: 2rem;
+}
+
+.preset-buttons h4 {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 0.75rem;
+}
+
+.preset-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+}
+
+.btn-preset {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    background-color: #e0e0e0;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+.btn-preset:hover:not(:disabled) {
+    background-color: #d0d0d0;
+}
+
+/* ============================================================================
+   Responsive Design
+   ============================================================================ */
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid #e0e0e0;
+    }
+
+    .main-content {
+        padding: 1rem;
+    }
+
+    #grid-canvas {
+        max-width: 100%;
+        height: auto;
+    }
+}

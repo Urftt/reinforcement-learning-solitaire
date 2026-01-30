@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GridWorld RL Training</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <main class="main-content">
+            <div class="grid-section">
+                <h1>GridWorld RL Training</h1>
+                <canvas id="grid-canvas"></canvas>
+                <div class="status-display" id="status-display">
+                    <div class="status-item">
+                        <span class="status-label">Episode:</span>
+                        <span class="status-value" id="episode-counter">0</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Step:</span>
+                        <span class="status-value" id="step-counter">0</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <aside class="sidebar">
+            <div class="controls-section">
+                <h2>Training Controls</h2>
+
+                <div class="action-buttons">
+                    <button id="start-btn" class="btn btn-primary">Start Training</button>
+                    <button id="stop-btn" class="btn btn-secondary" disabled>Stop Training</button>
+                    <button id="reset-btn" class="btn btn-tertiary">Reset</button>
+                </div>
+
+                <div class="parameters-section">
+                    <h3>Parameters</h3>
+
+                    <div class="param-group">
+                        <label for="learning-rate">Learning Rate (α)</label>
+                        <div class="input-row">
+                            <input
+                                type="range"
+                                id="learning-rate-slider"
+                                min="0.01"
+                                max="1.0"
+                                step="0.01"
+                                value="0.1"
+                            >
+                            <input
+                                type="number"
+                                id="learning-rate"
+                                min="0.01"
+                                max="1.0"
+                                step="0.01"
+                                value="0.1"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="param-group">
+                        <label for="epsilon">Epsilon (ε)</label>
+                        <div class="input-row">
+                            <input
+                                type="range"
+                                id="epsilon-slider"
+                                min="0.0"
+                                max="1.0"
+                                step="0.05"
+                                value="1.0"
+                            >
+                            <input
+                                type="number"
+                                id="epsilon"
+                                min="0.0"
+                                max="1.0"
+                                step="0.05"
+                                value="1.0"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="param-group">
+                        <label for="discount-factor">Discount Factor (γ)</label>
+                        <div class="input-row">
+                            <input
+                                type="range"
+                                id="discount-factor-slider"
+                                min="0.0"
+                                max="1.0"
+                                step="0.05"
+                                value="0.99"
+                            >
+                            <input
+                                type="number"
+                                id="discount-factor"
+                                min="0.0"
+                                max="1.0"
+                                step="0.05"
+                                value="0.99"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="preset-buttons">
+                        <h4>Presets</h4>
+                        <div class="preset-grid">
+                            <button class="btn btn-preset" data-preset="conservative">Conservative</button>
+                            <button class="btn btn-preset" data-preset="balanced">Balanced</button>
+                            <button class="btn btn-preset" data-preset="aggressive">Aggressive</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script src="app.js" defer></script>
+</body>
+</html>

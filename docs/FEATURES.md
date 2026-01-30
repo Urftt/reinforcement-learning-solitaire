@@ -29,6 +29,21 @@
   - Boundary checking prevents agent from moving off grid
   - Max steps per episode to prevent infinite loops
 
+#### 1.2 Q-Learning Agent
+- **Completed**: 2026-01-26
+- **Description**: Tabular Q-learning implementation from scratch with epsilon-greedy exploration
+- **Location**: [src/gridworld/agent.py](../src/gridworld/agent.py), [src/gridworld/config.py](../src/gridworld/config.py)
+- **Tests**: [tests/test_agent.py](../tests/test_agent.py) - 18 tests, 100% coverage
+- **Notes**:
+  - Q-table as NumPy array [num_states, num_actions]
+  - Epsilon-greedy exploration with exponential decay
+  - Bellman equation implementation for Q-value updates: Q(s,a) ← Q(s,a) + α[r + γ max_a' Q(s',a') - Q(s,a)]
+  - Configurable hyperparameters: learning_rate (α=0.1), discount_factor (γ=0.99), epsilon (start=1.0, end=0.01, decay=0.995)
+  - Methods: select_action(), learn(), decay_epsilon()
+  - Helper methods: get_q_values(), get_policy(), get_state_value()
+  - Persistence: save/load Q-table with pickle
+  - Integration tested with GridWorld environment
+
 ---
 
 ### 🚧 In Progress
@@ -38,17 +53,6 @@ _No features currently in progress_
 ---
 
 ### 📋 Planned - Phase 1: GridWorld
-
-#### 1.2 Q-Learning Agent
-- **Priority**: High
-- **Description**: Tabular Q-learning implementation from scratch
-- **Depends on**: 1.1 GridWorld Environment
-- **Estimated effort**: Medium
-- **Notes**:
-  - Q-table as NumPy array or dict
-  - Epsilon-greedy exploration
-  - Bellman update equation
-  - Hyperparameters: learning_rate, discount_factor, epsilon
 
 #### 1.3 Training Loop & Metrics
 - **Priority**: High
@@ -192,9 +196,9 @@ Phase 2: Solitaire (requires Phase 1)
 
 **Immediate priorities**:
 1. [x] 1.1: Implement GridWorld environment
-2. [ ] 1.2: Implement Q-learning agent
+2. [x] 1.2: Implement Q-learning agent
 3. [ ] 1.3: Build training loop with metrics
 4. [ ] 1.4: Create visualization suite
 
 **Waiting on**:
-- None - ready to start Phase 1!
+- None - ready for Phase 1 training loop!

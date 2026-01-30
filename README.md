@@ -18,13 +18,14 @@ A hands-on learning project to deeply understand reinforcement learning by imple
 ## ✨ Features
 
 ### Phase 1: GridWorld Fundamentals
-- **GridWorld Environment**: Custom Gymnasium-compatible environment
-- **Q-Learning Agent**: Tabular Q-learning from scratch
-- **Rich Visualizations**:
+- ✅ **GridWorld Environment**: Custom Gymnasium-compatible environment (Feature 1.1)
+- ✅ **Q-Learning Agent**: Tabular Q-learning from scratch with epsilon-greedy exploration (Feature 1.2)
+- 🚧 **Training Loop & Metrics**: Episode tracking, convergence checking, metrics collection (Feature 1.3 - Coming next)
+- 🚧 **Rich Visualizations** (Feature 1.4 - Planned):
   - Heatmaps of Q-values evolving over time
   - Policy visualization (arrows showing agent's learned behavior)
   - Learning curves (rewards, steps, exploration rate)
-- **Experimentation Framework**: Easy to test different hyperparameters
+- 🚧 **Experimentation Framework**: Easy to test different hyperparameters (Feature 1.5 - Planned)
 
 ### Phase 2: Klondike Solitaire (Coming Soon)
 - **Solitaire Environment**: Full Klondike rules with Gymnasium interface
@@ -72,10 +73,10 @@ uv run play_gridworld_terminal.py --difficulty easy
 # Watch a random agent (see baseline performance)
 uv run python -m src.gridworld.train
 
-# Train a Q-learning agent (coming soon in Feature 1.2)
+# Train a Q-learning agent (coming in Feature 1.3 - Training Loop)
 # uv run python -m src.gridworld.train --agent qlearning
 
-# Visualize the learned policy (coming soon in Feature 1.4)
+# Visualize the learned policy (coming in Feature 1.4)
 # uv run python -m src.gridworld.visualize
 ```
 
@@ -87,8 +88,8 @@ Start with these files:
 - [src/gridworld/play.py](src/gridworld/play.py) - Terminal-based gameplay
 - [src/gridworld/environment.py](src/gridworld/environment.py) - GridWorld environment (Gymnasium-compatible)
 - [src/gridworld/config.py](src/gridworld/config.py) - Configuration for environment and agents
-- [src/gridworld/train.py](src/gridworld/train.py) - Training demo (random agent for now)
-- [src/gridworld/agent.py](src/gridworld/agent.py) - Q-learning agent (coming in Feature 1.2)
+- [src/gridworld/agent.py](src/gridworld/agent.py) - Q-learning agent with epsilon-greedy exploration
+- [src/gridworld/train.py](src/gridworld/train.py) - Training demo (random agent for now, Q-learning coming in Feature 1.3)
 
 ## 📖 Learning Roadmap
 

@@ -1,0 +1,8 @@
+# Web server dependencies
+fastapi>=0.104.1
+uvicorn[standard]>=0.24.0
+starlette>=0.27.0
+
+# RL environment (already in project)
+gymnasium>=0.29.0
+numpy>=1.24.0

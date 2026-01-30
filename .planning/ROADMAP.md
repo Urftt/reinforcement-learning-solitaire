@@ -28,10 +28,13 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Agent position updates in real-time as training progresses
   4. User stops training and training halts immediately
   5. Training parameters are visible and editable before each run
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] TBD during phase planning
+- [ ] 01-01-PLAN.md — Backend FastAPI server + Q-learning agent implementation
+- [ ] 01-02-PLAN.md — Frontend Canvas grid renderer + parameter controls UI
+- [ ] 01-03-PLAN.md — Async training loop + WebSocket integration
+- [ ] 01-04-PLAN.md — End-to-end verification checkpoint
 
 ### Phase 2: Learning Metrics Dashboard
 **Goal**: User can track learning progress through metrics and curves
@@ -68,6 +71,6 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Web Infrastructure & Core Loop | 0/TBD | Not started | - |
+| 1. Web Infrastructure & Core Loop | 0/4 | Ready to execute | - |
 | 2. Learning Metrics Dashboard | 0/TBD | Not started | - |
 | 3. Advanced Visualization | 0/TBD | Not started | - |

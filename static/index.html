@@ -35,6 +35,11 @@
                     <button id="reset-btn" class="btn btn-tertiary">Reset</button>
                 </div>
 
+                <div class="qtable-buttons">
+                    <button id="save-qtable-btn" class="btn btn-tertiary">Save Q-table</button>
+                    <button id="load-qtable-btn" class="btn btn-tertiary">Load Q-table</button>
+                </div>
+
                 <div class="parameters-section">
                     <h3>Parameters</h3>
 
@@ -102,6 +107,18 @@
                                 value="0.99"
                             >
                         </div>
+                    </div>
+
+                    <div class="param-group">
+                        <label for="num-episodes">Episodes</label>
+                        <input
+                            type="number"
+                            id="num-episodes"
+                            min="1"
+                            max="10000"
+                            step="1"
+                            value="100"
+                        >
                     </div>
 
                     <div class="preset-buttons">

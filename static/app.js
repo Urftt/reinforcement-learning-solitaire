@@ -1,7 +1,78 @@
 /**
  * GridWorld RL Training Interface
- * Canvas-based grid renderer with parameter controls
+ * Canvas-based grid renderer with parameter controls and WebSocket communication
  */
+
+// ============================================================================
+// WebSocket Client - Real-time training communication
+// ============================================================================
+
+class WebSocketClient {
+    constructor(url) {
+        this.url = url;
+        this.ws = null;
+        this.handlers = new Map();
+        this.reconnectDelay = 3000;
+        this.connect();
+    }
+
+    connect() {
+        this.ws = new WebSocket(this.url);
+
+        this.ws.onopen = () => {
+            console.log('WebSocket connected');
+            this.updateConnectionStatus(true);
+        };
+
+        this.ws.onmessage = (event) => {
+            try {
+                const data = JSON.parse(event.data);
+                const handlers = this.handlers.get(data.type) || [];
+                handlers.forEach(handler => handler(data.data || data));
+            } catch (error) {
+                console.error('Error parsing WebSocket message:', error);
+            }
+        };
+
+        this.ws.onerror = (error) => {
+            console.error('WebSocket error:', error);
+        };
+
+        this.ws.onclose = () => {
+            console.log('WebSocket disconnected');
+            this.updateConnectionStatus(false);
+            this.reconnect();
+        };
+    }
+
+    reconnect() {
+        console.log(`Reconnecting in ${this.reconnectDelay / 1000}s...`);
+        setTimeout(() => this.connect(), this.reconnectDelay);
+    }
+
+    on(eventType, callback) {
+        if (!this.handlers.has(eventType)) {
+            this.handlers.set(eventType, []);
+        }
+        this.handlers.get(eventType).push(callback);
+    }
+
+    send(eventType, data = {}) {
+        if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+            this.ws.send(JSON.stringify({ type: eventType, data }));
+        } else {
+            console.error('WebSocket not connected');
+        }
+    }
+
+    updateConnectionStatus(connected) {
+        const statusEl = document.getElementById('connection-status');
+        if (statusEl) {
+            statusEl.textContent = connected ? 'Connected' : 'Disconnected';
+            statusEl.className = connected ? 'status-connected' : 'status-disconnected';
+        }
+    }
+}
 
 // ============================================================================
 // GridRenderer Class - Canvas-based visualization
@@ -221,41 +292,84 @@ function syncInputs(sliderId, inputId) {
 // ============================================================================
 
 let trainingActive = false;
+let wsClient = null;
 
 function updateButtonStates() {
     const startBtn = document.getElementById('start-btn');
     const stopBtn = document.getElementById('stop-btn');
+    const paramInputs = document.querySelectorAll('#learning-rate, #epsilon, #discount-factor, #num-episodes, #learning-rate-slider, #epsilon-slider, #discount-factor-slider');
 
     if (trainingActive) {
         startBtn.disabled = true;
         stopBtn.disabled = false;
+        // Lock parameter inputs during training
+        paramInputs.forEach(input => input.disabled = true);
     } else {
         startBtn.disabled = false;
         stopBtn.disabled = true;
+        // Unlock parameter inputs when not training
+        paramInputs.forEach(input => input.disabled = false);
+    }
+}
+
+function showNotification(message, type = 'info') {
+    console.log(`[${type}] ${message}`);
+    // Simple alert for now (can be enhanced with toast notifications later)
+    if (type === 'error') {
+        alert(`Error: ${message}`);
     }
 }
 
 function startTraining() {
+    if (!wsClient) {
+        showNotification('WebSocket not connected', 'error');
+        return;
+    }
+
+    const learningRate = parseFloat(document.getElementById('learning-rate').value);
+    const epsilon = parseFloat(document.getElementById('epsilon').value);
+    const discountFactor = parseFloat(document.getElementById('discount-factor').value);
+    const numEpisodes = parseInt(document.getElementById('num-episodes').value);
+
+    wsClient.send('start_training', {
+        learning_rate: learningRate,
+        epsilon: epsilon,
+        discount_factor: discountFactor,
+        num_episodes: numEpisodes
+    });
+
     trainingActive = true;
     updateButtonStates();
-    console.log('Training started');
-    // WebSocket integration will be added in Plan 03
 }
 
 function stopTraining() {
+    if (wsClient) {
+        wsClient.send('stop_training');
+    }
     trainingActive = false;
     updateButtonStates();
-    console.log('Training stopped');
-    // WebSocket integration will be added in Plan 03
 }
 
 function resetTraining() {
+    if (wsClient) {
+        wsClient.send('reset');
+    }
     trainingActive = false;
     updateButtonStates();
     document.getElementById('episode-counter').textContent = '0';
     document.getElementById('step-counter').textContent = '0';
-    console.log('Training reset');
-    // WebSocket integration will be added in Plan 03
+}
+
+function saveQTable() {
+    if (wsClient) {
+        wsClient.send('save_qtable');
+    }
+}
+
+function loadQTable() {
+    if (wsClient) {
+        wsClient.send('load_qtable');
+    }
 }
 
 // ============================================================================
@@ -269,6 +383,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Make renderer globally accessible for testing
     window.renderer = renderer;
+
+    // Initialize WebSocket client
+    wsClient = new WebSocketClient('ws://localhost:8000/ws');
+    window.wsClient = wsClient;  // Make globally accessible for debugging
+
+    // Register WebSocket event handlers
+    wsClient.on('training_update', (data) => {
+        // Update renderer state
+        renderer.update({
+            agent_pos: data.agent_pos
+        });
+
+        // Update counters
+        document.getElementById('episode-counter').textContent = data.episode;
+        document.getElementById('step-counter').textContent = data.step;
+    });
+
+    wsClient.on('training_complete', (data) => {
+        showNotification(`Training complete! ${data.total_episodes} episodes`);
+        trainingActive = false;
+        updateButtonStates();
+    });
+
+    wsClient.on('training_stopped', (data) => {
+        showNotification('Training stopped');
+        trainingActive = false;
+        updateButtonStates();
+    });
+
+    wsClient.on('reset_complete', (data) => {
+        showNotification('Environment reset');
+        renderer.update({
+            agent_pos: [0, 0],
+            trail: []
+        });
+        document.getElementById('episode-counter').textContent = '0';
+        document.getElementById('step-counter').textContent = '0';
+    });
+
+    wsClient.on('save_complete', (data) => {
+        if (data.success) {
+            showNotification(`Q-table saved to ${data.filepath}`);
+        }
+    });
+
+    wsClient.on('load_complete', (data) => {
+        if (data.success) {
+            showNotification(`Q-table loaded (epsilon: ${data.epsilon.toFixed(3)})`);
+        }
+    });
+
+    wsClient.on('error', (data) => {
+        showNotification(data.message, 'error');
+        trainingActive = false;
+        updateButtonStates();
+    });
 
     // Load saved parameters
     loadParams();
@@ -290,6 +460,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('start-btn').addEventListener('click', startTraining);
     document.getElementById('stop-btn').addEventListener('click', stopTraining);
     document.getElementById('reset-btn').addEventListener('click', resetTraining);
+    document.getElementById('save-qtable-btn').addEventListener('click', saveQTable);
+    document.getElementById('load-qtable-btn').addEventListener('click', loadQTable);
 
     // Initialize button states
     updateButtonStates();

@@ -319,10 +319,35 @@ function updateButtonStates() {
 
 function showNotification(message, type = 'info') {
     console.log(`[${type}] ${message}`);
-    // Simple alert for now (can be enhanced with toast notifications later)
-    if (type === 'error') {
-        alert(`Error: ${message}`);
-    }
+
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+
+    // Add icon based on type
+    const icon = document.createElement('span');
+    icon.className = 'notification-icon';
+    icon.textContent = type === 'error' ? '✗' : type === 'success' ? '✓' : 'ℹ';
+
+    // Add message
+    const messageEl = document.createElement('span');
+    messageEl.className = 'notification-message';
+    messageEl.textContent = message;
+
+    notification.appendChild(icon);
+    notification.appendChild(messageEl);
+
+    // Add to container
+    const container = document.getElementById('notification-container');
+    container.appendChild(notification);
+
+    // Auto-remove after 3 seconds
+    setTimeout(() => {
+        notification.classList.add('notification-exit');
+        setTimeout(() => {
+            container.removeChild(notification);
+        }, 300); // Match animation duration
+    }, 3000);
 }
 
 function startTraining() {
@@ -410,19 +435,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     wsClient.on('training_complete', (data) => {
-        showNotification(`Training complete! ${data.total_episodes} episodes`);
+        showNotification(`Training complete! ${data.total_episodes} episodes`, 'success');
         trainingActive = false;
         updateButtonStates();
     });
 
     wsClient.on('training_stopped', (data) => {
-        showNotification('Training stopped');
+        showNotification('Training stopped', 'info');
         trainingActive = false;
         updateButtonStates();
     });
 
     wsClient.on('reset_complete', (data) => {
-        showNotification('Environment reset');
+        showNotification('Environment reset', 'success');
         renderer.update({
             agent_pos: [0, 0],
             trail: []
@@ -433,13 +458,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     wsClient.on('save_complete', (data) => {
         if (data.success) {
-            showNotification(`Q-table saved to ${data.filepath}`);
+            showNotification(`Q-table saved to ${data.filepath}`, 'success');
         }
     });
 
     wsClient.on('load_complete', (data) => {
         if (data.success) {
-            showNotification(`Q-table loaded (epsilon: ${data.epsilon.toFixed(3)})`);
+            showNotification(`Q-table loaded (epsilon: ${data.epsilon.toFixed(3)})`, 'success');
         }
     });
 

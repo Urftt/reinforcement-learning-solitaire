@@ -12,7 +12,7 @@ This roadmap delivers a modern web-based interface for experimenting with reinfo
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Web Infrastructure & Core Loop** - Web interface with real-time training and parameter control
+- [x] **Phase 1: Web Infrastructure & Core Loop** - Web interface with real-time training and parameter control
 - [ ] **Phase 2: Learning Metrics Dashboard** - Track learning progress through curves and metrics
 - [ ] **Phase 3: Advanced Visualization** - Visualize what agent learned (Q-values and policy)
 
@@ -31,10 +31,10 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 4 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Backend FastAPI server + Q-learning agent implementation
-- [ ] 01-02-PLAN.md — Frontend Canvas grid renderer + parameter controls UI
-- [ ] 01-03-PLAN.md — Async training loop + WebSocket integration
-- [ ] 01-04-PLAN.md — End-to-end verification checkpoint
+- [x] 01-01-PLAN.md — Backend FastAPI server + Q-learning agent implementation
+- [x] 01-02-PLAN.md — Frontend Canvas grid renderer + parameter controls UI
+- [x] 01-03-PLAN.md — Async training loop + WebSocket integration
+- [x] 01-04-PLAN.md — End-to-end verification checkpoint
 
 ### Phase 2: Learning Metrics Dashboard
 **Goal**: User can track learning progress through metrics and curves
@@ -71,6 +71,6 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Web Infrastructure & Core Loop | 0/4 | Ready to execute | - |
+| 1. Web Infrastructure & Core Loop | 4/4 | ✓ Complete | 2026-01-31 |
 | 2. Learning Metrics Dashboard | 0/TBD | Not started | - |
 | 3. Advanced Visualization | 0/TBD | Not started | - |

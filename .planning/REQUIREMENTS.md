@@ -9,34 +9,34 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Web Infrastructure
 
-- [ ] **WEB-01**: User can access GridWorld interface via browser at localhost
-- [ ] **WEB-02**: Web UI connects to Python backend via WebSocket for real-time updates
-- [ ] **WEB-03**: WebSocket connection recovers gracefully from temporary disconnects
-- [ ] **WEB-04**: Backend API responds to training control commands within 100ms
+- [x] **WEB-01**: User can access GridWorld interface via browser at localhost
+- [x] **WEB-02**: Web UI connects to Python backend via WebSocket for real-time updates
+- [x] **WEB-03**: WebSocket connection recovers gracefully from temporary disconnects
+- [x] **WEB-04**: Backend API responds to training control commands within 100ms
 
 ### Training Control
 
-- [ ] **TRAIN-01**: User can start training session from web interface
-- [ ] **TRAIN-02**: User can stop training session at any time
-- [ ] **TRAIN-03**: User can reset environment to start new training run
-- [ ] **TRAIN-04**: Training runs in background without blocking web interface
-- [ ] **TRAIN-05**: User sees current episode number during training
-- [ ] **TRAIN-06**: User sees current step count during training
+- [x] **TRAIN-01**: User can start training session from web interface
+- [x] **TRAIN-02**: User can stop training session at any time
+- [x] **TRAIN-03**: User can reset environment to start new training run
+- [x] **TRAIN-04**: Training runs in background without blocking web interface
+- [x] **TRAIN-05**: User sees current episode number during training
+- [x] **TRAIN-06**: User sees current step count during training
 
 ### Parameter Configuration
 
-- [ ] **PARAM-01**: User can adjust learning rate before starting training
-- [ ] **PARAM-02**: User can adjust epsilon (exploration rate) before starting training
-- [ ] **PARAM-03**: User can adjust discount factor (gamma) before starting training
-- [ ] **PARAM-04**: Parameter changes take effect on next training run
-- [ ] **PARAM-05**: Current parameter values are displayed in UI
+- [x] **PARAM-01**: User can adjust learning rate before starting training
+- [x] **PARAM-02**: User can adjust epsilon (exploration rate) before starting training
+- [x] **PARAM-03**: User can adjust discount factor (gamma) before starting training
+- [x] **PARAM-04**: Parameter changes take effect on next training run
+- [x] **PARAM-05**: Current parameter values are displayed in UI
 
 ### Real-Time Visualization
 
-- [ ] **VIZ-01**: User sees agent position update in real-time during training
-- [ ] **VIZ-02**: Grid visualization shows obstacles and goal clearly
-- [ ] **VIZ-03**: Agent movement is smooth and tracks training progress
-- [ ] **VIZ-04**: Visualization updates at least 10 times per second during training
+- [x] **VIZ-01**: User sees agent position update in real-time during training
+- [x] **VIZ-02**: Grid visualization shows obstacles and goal clearly
+- [x] **VIZ-03**: Agent movement is smooth and tracks training progress
+- [x] **VIZ-04**: Visualization updates at least 10 times per second during training
 
 ### Learning Metrics
 
@@ -62,11 +62,11 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Q-Learning Implementation
 
-- [ ] **QL-01**: Q-learning agent trains on GridWorld environment
-- [ ] **QL-02**: Agent updates Q-table based on experience
-- [ ] **QL-03**: Agent uses epsilon-greedy exploration strategy
-- [ ] **QL-04**: Agent converges to optimal policy on easy difficulty
-- [ ] **QL-05**: Q-table persists across training sessions
+- [x] **QL-01**: Q-learning agent trains on GridWorld environment
+- [x] **QL-02**: Agent updates Q-table based on experience
+- [x] **QL-03**: Agent uses epsilon-greedy exploration strategy
+- [x] **QL-04**: Agent converges to optimal policy on easy difficulty
+- [x] **QL-05**: Q-table persists across training sessions
 
 ## v2 Requirements
 

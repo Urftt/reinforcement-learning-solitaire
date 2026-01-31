@@ -70,11 +70,11 @@ current_agent: QLearningAgent | None = None
 
 
 async def training_loop(env_config: dict, agent_config: dict, num_episodes: int):
-    """Async training loop that runs Q-learning with time-based state broadcasting.
+    """Async training loop that runs Q-learning with per-step state broadcasting.
 
     Implements non-blocking training loop following RESEARCH.md Pattern 2.
-    Broadcasts training updates every 100ms (time-based) for guaranteed 10 Hz
-    visualization update rate.
+    Broadcasts training updates after every environment step to show agent movement
+    in real-time visualization.
 
     Args:
         env_config: Environment configuration dict
@@ -106,7 +106,6 @@ async def training_loop(env_config: dict, agent_config: dict, num_episodes: int)
         current_agent = agent  # Store for Q-table persistence
 
         # Training loop
-        last_broadcast_time = time.time()
         max_steps = 100
 
         for episode in range(num_episodes):
@@ -116,7 +115,7 @@ async def training_loop(env_config: dict, agent_config: dict, num_episodes: int)
             step = 0
             done = False
 
-            # Broadcast at episode start to ensure updates happen
+            # Broadcast at episode start
             broadcast_data = {
                 "type": "training_update",
                 "data": {
@@ -128,7 +127,6 @@ async def training_loop(env_config: dict, agent_config: dict, num_episodes: int)
             }
             print(f"[Episode {episode + 1}] Broadcasting start: agent_pos={broadcast_data['data']['agent_pos']}")
             await manager.broadcast(broadcast_data)
-            last_broadcast_time = time.time()
 
             while not done and step < max_steps:
                 # Agent selects action
@@ -146,21 +144,22 @@ async def training_loop(env_config: dict, agent_config: dict, num_episodes: int)
                 state = next_state
                 step += 1
 
-                # Time-based broadcasting (VIZ-04): every 100ms
-                current_time = time.time()
-                if (current_time - last_broadcast_time) >= 0.1:
-                    broadcast_data = {
-                        "type": "training_update",
-                        "data": {
-                            "episode": episode + 1,
-                            "step": step,
-                            "agent_pos": [int(x) for x in next_obs],  # Convert numpy types to Python int
-                            "epsilon": float(agent.epsilon),
-                        },
-                    }
-                    print(f"[Episode {episode + 1} Step {step}] Broadcasting: agent_pos={broadcast_data['data']['agent_pos']}")
-                    await manager.broadcast(broadcast_data)
-                    last_broadcast_time = current_time
+                # Broadcast EVERY step to show agent movement
+                # (GridWorld episodes complete in microseconds, faster than 100ms threshold)
+                broadcast_data = {
+                    "type": "training_update",
+                    "data": {
+                        "episode": episode + 1,
+                        "step": step,
+                        "agent_pos": [int(x) for x in next_obs],  # Convert numpy types to Python int
+                        "epsilon": float(agent.epsilon),
+                    },
+                }
+                print(f"[Episode {episode + 1} Step {step}] Broadcasting: agent_pos={broadcast_data['data']['agent_pos']}")
+                await manager.broadcast(broadcast_data)
+
+                # Yield to event loop to prevent blocking (allows WebSocket to send)
+                await asyncio.sleep(0)
 
             # After episode: decay epsilon
             agent.decay_epsilon()

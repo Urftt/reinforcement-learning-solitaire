@@ -40,11 +40,11 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Learning Metrics
 
-- [ ] **METRIC-01**: User sees episode reward plotted in real-time learning curve
-- [ ] **METRIC-02**: Learning curve updates smoothly without blocking training
-- [ ] **METRIC-03**: User sees current episode reward value
-- [ ] **METRIC-04**: User sees rolling average of recent episode rewards
-- [ ] **METRIC-05**: Metrics are preserved across page refreshes during training
+- [x] **METRIC-01**: User sees episode reward plotted in real-time learning curve
+- [x] **METRIC-02**: Learning curve updates smoothly without blocking training
+- [x] **METRIC-03**: User sees current episode reward value
+- [x] **METRIC-04**: User sees rolling average of recent episode rewards
+- [x] **METRIC-05**: Metrics are preserved across page refreshes during training
 
 ### Q-Value Visualization
 
@@ -140,11 +140,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | QL-03 | Phase 1 | Pending |
 | QL-04 | Phase 1 | Pending |
 | QL-05 | Phase 1 | Pending |
-| METRIC-01 | Phase 2 | Pending |
-| METRIC-02 | Phase 2 | Pending |
-| METRIC-03 | Phase 2 | Pending |
-| METRIC-04 | Phase 2 | Pending |
-| METRIC-05 | Phase 2 | Pending |
+| METRIC-01 | Phase 2 | Complete |
+| METRIC-02 | Phase 2 | Complete |
+| METRIC-03 | Phase 2 | Complete |
+| METRIC-04 | Phase 2 | Complete |
+| METRIC-05 | Phase 2 | Complete |
 | QVAL-01 | Phase 3 | Pending |
 | QVAL-02 | Phase 3 | Pending |
 | QVAL-03 | Phase 3 | Pending |

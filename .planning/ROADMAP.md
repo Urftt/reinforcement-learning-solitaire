@@ -13,7 +13,7 @@ This roadmap delivers a modern web-based interface for experimenting with reinfo
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Web Infrastructure & Core Loop** - Web interface with real-time training and parameter control
-- [ ] **Phase 2: Learning Metrics Dashboard** - Track learning progress through curves and metrics
+- [x] **Phase 2: Learning Metrics Dashboard** - Track learning progress through curves and metrics
 - [ ] **Phase 3: Advanced Visualization** - Visualize what agent learned (Q-values and policy)
 
 ## Phase Details
@@ -45,10 +45,11 @@ Plans:
   2. Learning curve updates smoothly without blocking training performance
   3. Current reward and rolling average are displayed and update each episode
   4. Metrics persist across page refreshes during active training session
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] TBD during phase planning
+- [x] 02-01-PLAN.md — Backend metrics emission + frontend data layer (IndexedDB, statistics)
+- [x] 02-02-PLAN.md — Chart.js visualization, statistics panel, export/clear controls
 
 ### Phase 3: Advanced Visualization
 **Goal**: User can visualize what the agent learned (Q-values and policy)
@@ -72,5 +73,5 @@ Phases execute in numeric order: 1 → 2 → 3
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Web Infrastructure & Core Loop | 4/4 | ✓ Complete | 2026-01-31 |
-| 2. Learning Metrics Dashboard | 0/TBD | Not started | - |
+| 2. Learning Metrics Dashboard | 2/2 | ✓ Complete | 2026-02-01 |
 | 3. Advanced Visualization | 0/TBD | Not started | - |

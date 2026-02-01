@@ -60,10 +60,11 @@ Plans:
   2. Q-values update in real-time as agent continues learning
   3. User views policy arrows showing best action per state
   4. User can toggle Q-value and policy displays on/off independently
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] TBD during phase planning
+- [ ] 03-01-PLAN.md — Backend Q-table transmission + toggle switch UI
+- [ ] 03-02-PLAN.md — GridRenderer overlay methods + wiring
 
 ## Progress
 
@@ -74,4 +75,4 @@ Phases execute in numeric order: 1 → 2 → 3
 |-------|----------------|--------|-----------|
 | 1. Web Infrastructure & Core Loop | 4/4 | ✓ Complete | 2026-01-31 |
 | 2. Learning Metrics Dashboard | 2/2 | ✓ Complete | 2026-02-01 |
-| 3. Advanced Visualization | 0/TBD | Not started | - |
+| 3. Advanced Visualization | 0/2 | Not started | - |

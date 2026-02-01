@@ -210,6 +210,137 @@ class GridRenderer {
 }
 
 // ============================================================================
+// MetricsStorage Class - IndexedDB wrapper for episode persistence
+// ============================================================================
+
+class MetricsStorage {
+    constructor() {
+        this.db = null;
+        this.dbName = 'rlMetrics';
+        this.dbVersion = 1;
+    }
+
+    async init() {
+        return new Promise((resolve, reject) => {
+            const request = indexedDB.open(this.dbName, this.dbVersion);
+
+            request.onerror = () => reject(request.error);
+
+            request.onsuccess = () => {
+                this.db = request.result;
+                resolve();
+            };
+
+            request.onupgradeneeded = (event) => {
+                const db = event.target.result;
+                if (!db.objectStoreNames.contains('episodes')) {
+                    const store = db.createObjectStore('episodes', { keyPath: 'episode' });
+                    store.createIndex('timestamp', 'timestamp');
+                }
+            };
+        });
+    }
+
+    async saveEpisode(episode, reward, steps, epsilon) {
+        return new Promise((resolve, reject) => {
+            const transaction = this.db.transaction(['episodes'], 'readwrite');
+            const store = transaction.objectStore('episodes');
+            const request = store.put({
+                episode,
+                reward,
+                steps,
+                epsilon,
+                timestamp: Date.now()
+            });
+            request.onsuccess = () => resolve();
+            request.onerror = () => reject(request.error);
+        });
+    }
+
+    async loadAll() {
+        return new Promise((resolve, reject) => {
+            const transaction = this.db.transaction(['episodes'], 'readonly');
+            const store = transaction.objectStore('episodes');
+            const request = store.getAll();
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => reject(request.error);
+        });
+    }
+
+    async clear() {
+        return new Promise((resolve, reject) => {
+            const transaction = this.db.transaction(['episodes'], 'readwrite');
+            const store = transaction.objectStore('episodes');
+            const request = store.clear();
+            request.onsuccess = () => resolve();
+            request.onerror = () => reject(request.error);
+        });
+    }
+
+    async getCount() {
+        return new Promise((resolve, reject) => {
+            const transaction = this.db.transaction(['episodes'], 'readonly');
+            const store = transaction.objectStore('episodes');
+            const request = store.count();
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => reject(request.error);
+        });
+    }
+}
+
+// ============================================================================
+// EpisodeStatistics Class - Rolling averages for metrics display
+// ============================================================================
+
+class EpisodeStatistics {
+    constructor(windowSize = 50) {
+        this.rewardWindow = [];
+        this.stepsWindow = [];
+        this.windowSize = windowSize;
+        this.best = { reward: -Infinity, episode: -1 };
+        this.totalEpisodes = 0;
+    }
+
+    add(episode, reward, steps) {
+        this.totalEpisodes = episode;
+
+        // Update rolling windows
+        this.rewardWindow.push(reward);
+        this.stepsWindow.push(steps);
+        if (this.rewardWindow.length > this.windowSize) {
+            this.rewardWindow.shift();
+            this.stepsWindow.shift();
+        }
+
+        // Track best episode
+        if (reward > this.best.reward) {
+            this.best = { reward, episode };
+        }
+    }
+
+    getMeanReward() {
+        if (this.rewardWindow.length === 0) return 0;
+        return this.rewardWindow.reduce((a, b) => a + b, 0) / this.rewardWindow.length;
+    }
+
+    getMeanSteps() {
+        if (this.stepsWindow.length === 0) return 0;
+        return this.stepsWindow.reduce((a, b) => a + b, 0) / this.stepsWindow.length;
+    }
+
+    getBest() {
+        return this.best;
+    }
+
+    reset() {
+        this.rewardWindow = [];
+        this.stepsWindow = [];
+        this.best = { reward: -Infinity, episode: -1 };
+        this.totalEpisodes = 0;
+    }
+}
+
+// ============================================================================
 // Parameter Management
 // ============================================================================
 
@@ -298,6 +429,8 @@ function syncInputs(sliderId, inputId) {
 
 let trainingActive = false;
 let wsClient = null;
+let metricsStorage = null;
+let episodeStats = null;
 
 function updateButtonStates() {
     const startBtn = document.getElementById('start-btn');
@@ -406,7 +539,7 @@ function loadQTable() {
 // Initialization
 // ============================================================================
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     // Initialize grid renderer
     const renderer = new GridRenderer('grid-canvas', 5, 50);
     renderer.startAnimationLoop();
@@ -417,6 +550,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize WebSocket client
     wsClient = new WebSocketClient('ws://localhost:8000/ws');
     window.wsClient = wsClient;  // Make globally accessible for debugging
+
+    // Initialize metrics storage (IndexedDB)
+    metricsStorage = new MetricsStorage();
+    await metricsStorage.init();
+    console.log('[Metrics] Storage initialized');
+
+    // Initialize statistics calculator (50-episode rolling window)
+    episodeStats = new EpisodeStatistics(50);
+    console.log('[Metrics] Statistics calculator initialized');
 
     // Register WebSocket event handlers
     wsClient.on('training_update', (data) => {
@@ -472,6 +614,19 @@ document.addEventListener('DOMContentLoaded', () => {
         showNotification(data.message, 'error');
         trainingActive = false;
         updateButtonStates();
+    });
+
+    wsClient.on('episode_complete', async (data) => {
+        console.log('[Metrics] Episode complete:', data);
+
+        // Store in IndexedDB
+        await metricsStorage.saveEpisode(data.episode, data.reward, data.steps, data.epsilon);
+
+        // Update statistics
+        episodeStats.add(data.episode, data.reward, data.steps);
+
+        // Log rolling average (chart integration in Plan 02)
+        console.log('[Metrics] Rolling avg reward:', episodeStats.getMeanReward().toFixed(2));
     });
 
     // Load saved parameters

@@ -5,33 +5,34 @@
 See: .planning/PROJECT.md (updated 2026-01-30)
 
 **Core value:** A modern web interface where I can experiment with RL algorithms, adjust parameters, and see learning happen in real-time through visualizations and metrics - making RL concepts concrete through hands-on exploration.
-**Current focus:** Phase 1: Web Infrastructure & Core Loop - COMPLETE ✓
+**Current focus:** Phase 2: Learning Metrics Dashboard - In Progress
 
 ## Current Position
 
-Phase: 1 of 3 (Web Infrastructure & Core Loop) - COMPLETE ✓
-Plan: 4 of 4 in current phase
-Status: Phase 1 complete, ready for Phase 2
-Last activity: 2026-01-31 — Completed 01-04-PLAN.md (Integration Verification & Polish)
+Phase: 2 of 3 (Learning Metrics Dashboard)
+Plan: 1 of 2 in current phase
+Status: In progress
+Last activity: 2026-02-01 - Completed 02-01-PLAN.md (Metrics Data Layer)
 
-Progress: [████░░░░░░] ~40%
+Progress: [█████░░░░░] ~50%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4
-- Average duration: 3h 22min
-- Total execution time: 13.48 hours
+- Total plans completed: 5
+- Average duration: 2h 42min
+- Total execution time: 13h 32min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01 | 4/4 | 13h 29m | 3h 22m |
+| 02 | 1/2 | 4m | 4m |
 
 **Recent Trend:**
-- Last 4 plans: 01-01 (5 min), 01-02 (4 min), 01-03 (16 min), 01-04 (10h 40m)
-- Trend: Plan 01-04 included overnight break + comprehensive bug fixes; active debugging ~1h
+- Last 5 plans: 01-01 (5 min), 01-02 (4 min), 01-03 (16 min), 01-04 (10h 40m), 02-01 (4 min)
+- Trend: 02-01 executed cleanly with no deviations
 
 *Updated after each plan completion*
 
@@ -59,6 +60,9 @@ Recent decisions affecting current work:
 - asyncio.sleep(0) after broadcasts (01-04): Yield to event loop for WebSocket message delivery
 - Visible notifications for Q-table operations (01-04): User feedback for save/load actions
 - Sidebar width 340px (01-04): Accommodates preset button grid without horizontal scrolling
+- 50-episode rolling window for statistics (02-01): Balances smoothing with recent data sensitivity
+- IndexedDB for metrics persistence (02-01): Survives page refresh, no server storage needed
+- Separate episode_complete event (02-01): Maintains per-step visualization while adding episode-level metrics
 
 ### Pending Todos
 
@@ -66,44 +70,47 @@ None yet.
 
 ### Blockers/Concerns
 
-None - Phase 1 complete and verified.
+None - Phase 2 Plan 01 complete and ready for Plan 02.
 
 ## Session Continuity
 
-Last session: 2026-01-31 09:36 UTC
-Stopped at: Completed Phase 1 (all 4 plans complete and verified)
+Last session: 2026-02-01 13:04 UTC
+Stopped at: Completed 02-01-PLAN.md (Metrics Data Layer)
 Resume file: None
 
-## Phase 1 Complete ✓
+## Phase 1 Complete
 
 All Phase 1 requirements verified and operational:
-- Web-based GridWorld training interface ✓
-- Real-time visualization with canvas rendering ✓
-- WebSocket bidirectional communication ✓
-- Q-learning agent with epsilon-greedy policy ✓
-- Parameter controls with presets and persistence ✓
-- Q-table save/load functionality ✓
-- Polished UI without scrolling issues ✓
+- Web-based GridWorld training interface
+- Real-time visualization with canvas rendering
+- WebSocket bidirectional communication
+- Q-learning agent with epsilon-greedy policy
+- Parameter controls with presets and persistence
+- Q-table save/load functionality
+- Polished UI without scrolling issues
 
 **User verification:** "yes that's perfect!"
 
-**Key learnings from Phase 1:**
-- Per-step broadcasting essential for fast environments (GridWorld episodes in microseconds)
-- asyncio.sleep(0) yielding critical for WebSocket message delivery in tight loops
-- Visual notifications improve UX for file operations
-- Iterative UI polish eliminates scrolling issues
+## Phase 2 Progress
 
-Ready for Phase 2: Learning Metrics Dashboard
+**Plan 02-01 Complete:**
+- episode_complete WebSocket event broadcasting reward/steps/epsilon
+- MetricsStorage class with IndexedDB persistence
+- EpisodeStatistics class with 50-episode rolling averages
+- Console logging verifies data flow
+
+**Next: Plan 02-02**
+- Chart visualization consuming metrics data layer
+- Real-time learning curve display
 
 ## Next Steps
 
-**Phase 2: Learning Metrics Dashboard**
-- Episode reward plotting in real-time learning curve
-- Current reward and rolling average display
-- Metrics persistence across page refreshes
-- Non-blocking visualization during training
+**Immediate: Plan 02-02**
+- Implement chart visualization for learning curve
+- Wire chart to episode_complete events
+- Display rolling averages visually
 
-**Planning required:**
-- Phase 2 planning: Break down learning metrics requirements into executable plans
-- Integration with existing WebSocket infrastructure
-- Chart library selection (Chart.js, Plotly, or Canvas-based)
+**After Phase 2:**
+- Phase 3: Q-Value Exploration
+- Interactive Q-table visualization
+- Policy arrow overlays

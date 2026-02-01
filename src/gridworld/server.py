@@ -176,6 +176,7 @@ async def training_loop(env_config: dict, agent_config: dict, num_episodes: int)
                     "reward": total_reward,
                     "steps": step,
                     "epsilon": float(agent.epsilon),
+                    "q_table": agent.q_table.tolist(),  # Q-table for visualization (5x5x4 nested list)
                 },
             })
 

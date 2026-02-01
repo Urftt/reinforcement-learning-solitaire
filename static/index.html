@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GridWorld RL Training</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <body>
     <!-- Notification Container -->
@@ -26,6 +27,59 @@
                     </div>
                 </div>
             </div>
+
+            <section class="metrics-section">
+                <div class="metrics-header">
+                    <h2>Learning Metrics</h2>
+                    <div class="metrics-controls">
+                        <button id="pause-charts-btn" class="btn btn-secondary">Pause Charts</button>
+                        <button id="clear-metrics-btn" class="btn btn-tertiary">Clear Data</button>
+                        <button id="export-csv-btn" class="btn btn-tertiary">Export CSV</button>
+                    </div>
+                </div>
+
+                <div class="statistics-panel">
+                    <div class="stat-item">
+                        <span class="stat-label">Total Episodes:</span>
+                        <span class="stat-value" id="stat-total-episodes">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Latest Reward:</span>
+                        <span class="stat-value" id="stat-latest-reward">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Avg Reward (50 ep):</span>
+                        <span class="stat-value" id="stat-avg-reward">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Best Reward:</span>
+                        <span class="stat-value" id="stat-best-reward">- (ep -)</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Avg Steps (50 ep):</span>
+                        <span class="stat-value" id="stat-avg-steps">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Current Epsilon:</span>
+                        <span class="stat-value" id="stat-epsilon">-</span>
+                    </div>
+                </div>
+
+                <div class="charts-container">
+                    <div class="chart-wrapper">
+                        <h3>Episode Rewards</h3>
+                        <canvas id="reward-chart"></canvas>
+                    </div>
+                    <div class="chart-wrapper">
+                        <h3>Steps per Episode</h3>
+                        <canvas id="steps-chart"></canvas>
+                    </div>
+                    <div class="chart-wrapper">
+                        <h3>Epsilon Decay</h3>
+                        <canvas id="epsilon-chart"></canvas>
+                    </div>
+                </div>
+            </section>
         </main>
 
         <aside class="sidebar">

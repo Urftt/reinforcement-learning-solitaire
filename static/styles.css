@@ -33,13 +33,15 @@ body {
 
 .main-content {
     flex: 1;
-    padding: 2rem;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
 }
 
 .grid-section {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
 }
 
@@ -376,6 +378,110 @@ input[type="number"]:focus {
    Responsive Design
    ============================================================================ */
 
+/* ============================================================================
+   Metrics Section
+   ============================================================================ */
+
+.metrics-section {
+    padding: 20px;
+    background: #fff;
+    border-top: 1px solid #e0e0e0;
+}
+
+.metrics-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.metrics-header h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #333;
+}
+
+.metrics-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.metrics-controls .btn {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+}
+
+/* Statistics Panel */
+.statistics-panel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+    padding: 16px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Charts Container */
+.charts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.chart-wrapper {
+    background: #fff;
+    padding: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+}
+
+.chart-wrapper h3 {
+    margin: 0 0 12px 0;
+    font-size: 1rem;
+    color: #555;
+}
+
+.chart-wrapper canvas {
+    width: 100% !important;
+    max-height: 200px;
+}
+
+/* Paused state indicator */
+.metrics-section.paused .metrics-header::after {
+    content: 'PAUSED';
+    margin-left: 12px;
+    padding: 2px 8px;
+    background: #ffc107;
+    color: #333;
+    font-size: 0.7rem;
+    font-weight: 600;
+    border-radius: 4px;
+}
+
+/* ============================================================================
+   Responsive Design
+   ============================================================================ */
+
 @media (max-width: 768px) {
     .container {
         flex-direction: column;
@@ -394,5 +500,19 @@ input[type="number"]:focus {
     #grid-canvas {
         max-width: 100%;
         height: auto;
+    }
+
+    .metrics-section {
+        padding: 15px;
+    }
+
+    .metrics-header {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    .metrics-controls {
+        flex-wrap: wrap;
     }
 }

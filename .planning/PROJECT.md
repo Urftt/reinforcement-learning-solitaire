@@ -2,7 +2,7 @@
 
 ## What This Is
 
-A web-based GridWorld environment for learning reinforcement learning concepts through hands-on experimentation. The project builds on an existing GridWorld game implementation, replacing the dated Tkinter interface with a modern browser-based UI and adding RL training infrastructure for experimentation with different algorithms, parameters, and visualizations.
+A web-based GridWorld environment for learning reinforcement learning concepts through hands-on experimentation. Features real-time training visualization, learning metrics dashboard, and Q-value/policy visualizations that make RL concepts concrete and intuitive.
 
 ## Core Value
 
@@ -12,7 +12,7 @@ A modern web interface where I can experiment with RL algorithms, adjust paramet
 
 ### Validated
 
-<!-- Shipped and confirmed valuable (existing codebase) -->
+<!-- Shipped and confirmed valuable -->
 
 - ✓ GridWorld environment (Gymnasium-compliant) — existing
 - ✓ Multiple difficulty levels (easy, medium, hard presets) — existing
@@ -20,55 +20,61 @@ A modern web interface where I can experiment with RL algorithms, adjust paramet
 - ✓ Test suite with 30+ environment tests — existing
 - ✓ Grid rendering with obstacles, goals, agent position — existing
 - ✓ Episode management (reset, step, termination) — existing
+- ✓ Web-based frontend (localhost, browser-based) — v1.0
+- ✓ Q-learning agent implementation with persistence — v1.0
+- ✓ Training interface (start/stop, adjust hyperparameters) — v1.0
+- ✓ Real-time visualization of agent learning during training — v1.0
+- ✓ Learning metrics dashboard (episode rewards, steps, convergence) — v1.0
+- ✓ Learning curves visualization (rewards over time, rolling averages) — v1.0
+- ✓ Parameter experimentation UI (learning rate, epsilon, discount factor) — v1.0
+- ✓ Q-value heatmap visualization — v1.0
+- ✓ Policy arrow visualization — v1.0
 
 ### Active
 
-<!-- Current scope. Building toward these. -->
+<!-- Future scope for continued RL learning -->
 
-- [ ] Web-based frontend (localhost, browser-based gameplay)
-- [ ] Q-learning agent implementation (currently stubbed)
-- [ ] Training interface (start/stop training, adjust hyperparameters)
-- [ ] Real-time visualization of agent learning during training
-- [ ] Learning metrics dashboard (episode rewards, steps, convergence)
-- [ ] Learning curves visualization (rewards over time, rolling averages)
-- [ ] Parameter experimentation UI (learning rate, epsilon, discount factor)
 - [ ] Algorithm comparison capability (try different approaches side-by-side)
 - [ ] Save/load trained agents for comparison
+- [ ] SARSA algorithm implementation
+- [ ] State visitation heatmap showing exploration coverage
+- [ ] Animated training progress playback
 
 ### Out of Scope
 
-- Tkinter interface improvements — replacing entirely with web interface
-- Solitaire implementation — separate future project after GridWorld proven
+- Tkinter interface improvements — replaced with web interface
+- Solitaire implementation — separate future project
 - Production deployment — localhost only, for personal learning
 - Mobile interface — desktop browser sufficient for experimentation
-- Advanced RL algorithms beyond Q-learning initially — start simple, add later if desired
 - Multi-agent environments — single agent focus for learning fundamentals
 
 ## Context
+
+**Current State (v1.0 shipped 2026-02-01):**
+- ~4,031 LOC (Python, JavaScript, HTML, CSS)
+- Stack: FastAPI, WebSocket, Chart.js, Canvas API, IndexedDB
+- Backend: 589 lines Python (server.py, agent.py)
+- Frontend: ~3,400 lines (index.html, app.js, styles.css)
 
 **User Background:**
 - Data scientist learning reinforcement learning from scratch
 - No prior RL experience but strong Python/data analysis background
 - Goal is educational: understand RL through hands-on experimentation
 
-**Technical Environment:**
-- Existing Python codebase with GridWorld implementation
-- Stack: Python 3.10+, gymnasium, numpy, matplotlib, pytest
-- Current interfaces: Terminal (functional) and Tkinter (works but feels dated/clunky)
-- Testing infrastructure in place with good coverage
-
-**Motivation:**
-- Current Tkinter interface feels like "game development in the 2000s"
-- Want modern, pleasant interface to enable serious RL experimentation
-- Need to see learning happen - real-time visualization is essential
-- Web interface is essential before starting RL work (blocking requirement)
+**What's Working:**
+- Modern web UI for GridWorld training at localhost
+- Real-time agent visualization with 60fps canvas rendering
+- Learning metrics dashboard with rewards, steps, epsilon charts
+- Q-value heatmap and policy arrow visualizations
+- Parameter control with presets and persistence
+- Q-table save/load functionality
 
 **Learning Goals:**
 - Understand how RL algorithms work through parameter tuning
 - See learning curves and convergence behavior
 - Build intuition for hyperparameter effects
 - Compare different RL approaches empirically
-- Create proven foundation to later apply to Solitaire (Phase 2 of original project)
+- Explore additional algorithms (SARSA, DQN) for deeper understanding
 
 ## Constraints
 
@@ -84,9 +90,13 @@ A modern web interface where I can experiment with RL algorithms, adjust paramet
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Web interface essential before RL work | Tkinter too frustrating for serious experimentation, modern UI needed for visualization | — Pending |
-| Focus on Q-learning first | Simplest algorithm for learning fundamentals, proven effective for GridWorld | — Pending |
-| Localhost-only deployment | Personal learning tool, no production requirements | — Pending |
+| Web interface essential before RL work | Tkinter too frustrating for serious experimentation, modern UI needed for visualization | ✓ Good — Modern UI enables effective learning |
+| Focus on Q-learning first | Simplest algorithm for learning fundamentals, proven effective for GridWorld | ✓ Good — Foundation established |
+| Localhost-only deployment | Personal learning tool, no production requirements | ✓ Good — No deployment overhead |
+| Per-step broadcasting (not time-based) | GridWorld episodes complete in microseconds | ✓ Good — Smooth real-time visualization |
+| IndexedDB for metrics persistence | Survives page refresh, no server storage needed | ✓ Good — Simple and effective |
+| Chart.js via CDN | No build step needed, simple integration | ✓ Good — Clean setup |
+| Canvas + requestAnimationFrame | 60fps visualization without DOM thrashing | ✓ Good — Smooth performance |
 
 ---
-*Last updated: 2026-01-30 after initialization*
+*Last updated: 2026-02-01 after v1.0 milestone*

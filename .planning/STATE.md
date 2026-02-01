@@ -2,129 +2,84 @@
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-01-30)
+See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** A modern web interface where I can experiment with RL algorithms, adjust parameters, and see learning happen in real-time through visualizations and metrics - making RL concepts concrete through hands-on exploration.
-**Current focus:** Phase 3: Advanced Visualization - In Progress
+**Current focus:** Planning next milestone
 
 ## Current Position
 
-Phase: 3 of 3 (Advanced Visualization)
-Plan: 2 of 2 in current phase
-Status: Phase complete
-Last activity: 2026-02-01 - Completed 03-02-PLAN.md (GridRenderer Overlay Methods + Wiring)
+Phase: N/A (milestone complete)
+Plan: N/A
+Status: Ready for next milestone
+Last activity: 2026-02-01 — v1.0 milestone complete
 
-Progress: [██████████] 100%
+Progress: [██████████] 100% (v1.0)
 
 ## Performance Metrics
 
-**Velocity:**
+**v1.0 Milestone:**
 - Total plans completed: 8
-- Average duration: 1h 43min
-- Total execution time: 13h 50min
+- Total phases: 3
+- Total execution time: ~14h
+- Requirements shipped: 33/33
 
-**By Phase:**
-
-| Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
-| 01 | 4/4 | 13h 29m | 3h 22m |
-| 02 | 2/2 | 10m | 5m |
-| 03 | 2/2 | 12m | 6m |
-
-**Recent Trend:**
-- Last 5 plans: 01-04 (10h 40m), 02-01 (4 min), 02-02 (6 min), 03-01 (2 min), 03-02 (10 min)
-- Trend: Plans executing quickly with no deviations
-
-*Updated after each plan completion*
+*Metrics reset for next milestone*
 
 ## Accumulated Context
 
 ### Decisions
 
 Decisions are logged in PROJECT.md Key Decisions table.
-Recent decisions affecting current work:
+Key architectural decisions from v1.0:
 
-- Web interface essential before RL work: Tkinter too frustrating for serious experimentation
-- Focus on Q-learning first: Simplest algorithm for learning fundamentals
-- Localhost-only deployment: Personal learning tool, no production requirements
-- ConnectionManager pattern for WebSocket state (01-01): Supports future multi-client scenarios
-- JSON format for Q-table persistence (01-01): Human-readable, web-compatible
-- Exponential epsilon decay (01-01): Standard RL practice for exploration-exploitation balance
-- Action encoding 0=up, 1=down, 2=left, 3=right (01-01): Matches environment conventions
-- Canvas rendering with requestAnimationFrame (01-02): 60fps visualization without DOM thrashing
-- Trail effect limited to 20 positions (01-02): Prevent memory leaks per RESEARCH pitfall
-- localStorage for parameter persistence (01-02): User convenience across page refreshes
-- Three training presets (01-02): Quick parameter experimentation (Conservative, Balanced, Aggressive)
-- Per-step broadcasting for fast environments (01-04): GridWorld episodes complete in microseconds, time-based throttling never triggered
-- Parameter locking during training (01-03): Prevents mid-training configuration changes
-- WebSocket reconnection with 3-second delay (01-03): Connection resilience
-- asyncio.sleep(0) after broadcasts (01-04): Yield to event loop for WebSocket message delivery
-- Visible notifications for Q-table operations (01-04): User feedback for save/load actions
-- Sidebar width 340px (01-04): Accommodates preset button grid without horizontal scrolling
-- 50-episode rolling window for statistics (02-01): Balances smoothing with recent data sensitivity
-- IndexedDB for metrics persistence (02-01): Survives page refresh, no server storage needed
-- Separate episode_complete event (02-01): Maintains per-step visualization while adding episode-level metrics
-- Chart.js CDN (02-02): No build step needed, simple integration
-- Animation disabled for charts (02-02): Real-time updates without lag
-- Update queueing while paused (02-02): No data loss when charts are paused
-- CSV export with timestamp (02-02): External analysis correlation
-- Q-table sent as tolist() for JSON serialization (03-01): Converts numpy array to nested list
-- Toggles default OFF on page load (03-01): Clean initial state, no persistence
+- Per-step broadcasting for fast environments (GridWorld episodes in microseconds)
+- IndexedDB for metrics persistence (no server storage needed)
+- Canvas + requestAnimationFrame for 60fps visualization
+- Chart.js via CDN (no build step)
+- WebSocket bidirectional communication
 
 ### Pending Todos
 
-None yet.
+None yet — ready for next milestone planning.
 
 ### Blockers/Concerns
 
-None - All phases complete. Milestone ready for completion.
+None — v1.0 shipped successfully.
 
 ## Session Continuity
 
-Last session: 2026-02-01 17:10 UTC
-Stopped at: Completed 03-02-PLAN.md (GridRenderer Overlay Methods + Wiring)
+Last session: 2026-02-01
+Stopped at: v1.0 milestone completion
 Resume file: None
 
-## Phase 1 Complete
+## v1.0 Shipped
 
-All Phase 1 requirements verified and operational:
+All v1.0 functionality delivered:
 - Web-based GridWorld training interface
 - Real-time visualization with canvas rendering
-- WebSocket bidirectional communication
-- Q-learning agent with epsilon-greedy policy
-- Parameter controls with presets and persistence
+- Learning metrics dashboard with charts
+- Q-value heatmap and policy arrow visualizations
+- Parameter control with presets and persistence
 - Q-table save/load functionality
-- Polished UI without scrolling issues
 
-**User verification:** "yes that's perfect!"
+**Archived to:** `.planning/milestones/`
+- v1.0-ROADMAP.md
+- v1.0-REQUIREMENTS.md
+- v1.0-MILESTONE-AUDIT.md
 
-## Phase 2 Complete
-
-All Phase 2 requirements verified and operational (9/9 must-haves):
-- episode_complete WebSocket event broadcasting reward/steps/epsilon
-- MetricsStorage class with IndexedDB persistence
-- EpisodeStatistics class with 50-episode rolling averages
-- Three Chart.js charts (rewards, steps, epsilon) with real-time updates
-- Statistics panel showing total episodes, latest/avg/best reward, avg steps, epsilon
-- Pause/Resume button that queues updates while paused
-- Clear Data button that wipes IndexedDB and resets charts
-- Export CSV button that downloads episode metrics with timestamp
-- Charts reload from IndexedDB on page refresh
-
-## Phase 3 Complete
-
-All Phase 3 requirements verified and operational:
-- Q-table data transmitted via WebSocket with episode_complete events
-- Toggle switch UI for heatmap and policy arrow controls
-- Q-value heatmap overlay with red-to-green gradient
-- Policy arrow overlay showing best actions per state
-- Real-time updates during training
-- Both overlays toggle independently
-- Overlays persist when training stops
-
-**User verification:** "approved"
+**Git tag:** v1.0
 
 ## Next Steps
 
-**Milestone Complete**
-All 3 phases finished. Ready for `/gsd:complete-milestone`.
+**Start Next Milestone**
+
+`/gsd:new-milestone`
+
+This will:
+1. Gather requirements through questioning
+2. Research the domain
+3. Create new REQUIREMENTS.md
+4. Create new ROADMAP.md
+
+Consider: `/clear` first for fresh context window

@@ -1020,6 +1020,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Update statistics display
         updateStatisticsDisplay(data.reward, data.epsilon);
+
+        // Store Q-table for visualization
+        if (data.q_table) {
+            renderer.setQTable(data.q_table);
+        }
     });
 
     // Load saved parameters
@@ -1085,6 +1090,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         URL.revokeObjectURL(url);
 
         showNotification(`Exported ${episodes.length} episodes`, 'success');
+    });
+
+    // Visualization toggle event handlers
+    document.getElementById('heatmap-toggle').addEventListener('change', (e) => {
+        renderer.setShowHeatmap(e.target.checked);
+    });
+
+    document.getElementById('policy-toggle').addEventListener('change', (e) => {
+        renderer.setShowPolicyArrows(e.target.checked);
     });
 
     // Initialize button states

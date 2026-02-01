@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-30)
 
 **Core value:** A modern web interface where I can experiment with RL algorithms, adjust parameters, and see learning happen in real-time through visualizations and metrics - making RL concepts concrete through hands-on exploration.
-**Current focus:** Phase 2: Learning Metrics Dashboard - COMPLETE ✓
+**Current focus:** Phase 3: Advanced Visualization - In Progress
 
 ## Current Position
 
-Phase: 2 of 3 (Learning Metrics Dashboard) - COMPLETE ✓
-Plan: 2 of 2 in current phase
-Status: Phase 2 complete, ready for Phase 3
-Last activity: 2026-02-01 - Completed 02-02-PLAN.md (Chart Visualization)
+Phase: 3 of 3 (Advanced Visualization)
+Plan: 1 of 3 in current phase
+Status: In progress
+Last activity: 2026-02-01 - Completed 03-01-PLAN.md (Q-table WebSocket + Toggle UI)
 
-Progress: [██████░░░░] ~60%
+Progress: [███████░░░] ~70%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6
-- Average duration: 2h 16min
-- Total execution time: 13h 38min
+- Total plans completed: 7
+- Average duration: 1h 57min
+- Total execution time: 13h 40min
 
 **By Phase:**
 
@@ -29,10 +29,11 @@ Progress: [██████░░░░] ~60%
 |-------|-------|-------|----------|
 | 01 | 4/4 | 13h 29m | 3h 22m |
 | 02 | 2/2 | 10m | 5m |
+| 03 | 1/3 | 2m | 2m |
 
 **Recent Trend:**
-- Last 5 plans: 01-02 (4 min), 01-03 (16 min), 01-04 (10h 40m), 02-01 (4 min), 02-02 (6 min)
-- Trend: Phase 02 plans executed quickly with no deviations
+- Last 5 plans: 01-03 (16 min), 01-04 (10h 40m), 02-01 (4 min), 02-02 (6 min), 03-01 (2 min)
+- Trend: Plans executing quickly with no deviations
 
 *Updated after each plan completion*
 
@@ -67,6 +68,8 @@ Recent decisions affecting current work:
 - Animation disabled for charts (02-02): Real-time updates without lag
 - Update queueing while paused (02-02): No data loss when charts are paused
 - CSV export with timestamp (02-02): External analysis correlation
+- Q-table sent as tolist() for JSON serialization (03-01): Converts numpy array to nested list
+- Toggles default OFF on page load (03-01): Clean initial state, no persistence
 
 ### Pending Todos
 
@@ -74,15 +77,15 @@ None yet.
 
 ### Blockers/Concerns
 
-None - Phase 2 complete and ready for Phase 3.
+None - Phase 3 Plan 01 complete, ready for Plan 02.
 
 ## Session Continuity
 
-Last session: 2026-02-01 13:16 UTC
-Stopped at: Completed 02-02-PLAN.md (Chart Visualization)
+Last session: 2026-02-01 16:56 UTC
+Stopped at: Completed 03-01-PLAN.md (Q-table WebSocket + Toggle UI)
 Resume file: None
 
-## Phase 1 Complete ✓
+## Phase 1 Complete
 
 All Phase 1 requirements verified and operational:
 - Web-based GridWorld training interface
@@ -95,7 +98,7 @@ All Phase 1 requirements verified and operational:
 
 **User verification:** "yes that's perfect!"
 
-## Phase 2 Complete ✓
+## Phase 2 Complete
 
 All Phase 2 requirements verified and operational (9/9 must-haves):
 - episode_complete WebSocket event broadcasting reward/steps/epsilon
@@ -108,9 +111,16 @@ All Phase 2 requirements verified and operational (9/9 must-haves):
 - Export CSV button that downloads episode metrics with timestamp
 - Charts reload from IndexedDB on page refresh
 
+## Phase 3 In Progress
+
+Plan 01 complete:
+- Q-table data transmitted via WebSocket with episode_complete events
+- Toggle switch UI for heatmap and policy arrow overlays
+- Both toggles default to OFF on page load
+
 ## Next Steps
 
-**Immediate: Phase 03**
-- Q-Value Exploration
-- Interactive Q-table visualization
-- Policy arrow overlays
+**Immediate: Phase 03 Plan 02**
+- Heatmap overlay implementation
+- Color mapping for Q-values
+- Toggle activation for heatmap display

@@ -114,6 +114,7 @@ async def training_loop(env_config: dict, agent_config: dict, num_episodes: int)
             state = tuple(obs)
             step = 0
             done = False
+            total_reward = 0  # Track cumulative reward for this episode
 
             # Broadcast at episode start
             broadcast_data = {
@@ -140,6 +141,9 @@ async def training_loop(env_config: dict, agent_config: dict, num_episodes: int)
                 # Agent updates Q-table
                 agent.update(state, action, reward, next_state, done)
 
+                # Accumulate episode reward
+                total_reward += reward
+
                 # Move to next state
                 state = next_state
                 step += 1
@@ -163,6 +167,17 @@ async def training_loop(env_config: dict, agent_config: dict, num_episodes: int)
 
             # After episode: decay epsilon
             agent.decay_epsilon()
+
+            # Broadcast episode_complete event for metrics tracking
+            await manager.broadcast({
+                "type": "episode_complete",
+                "data": {
+                    "episode": episode + 1,
+                    "reward": total_reward,
+                    "steps": step,
+                    "epsilon": float(agent.epsilon),
+                },
+            })
 
             # Yield to event loop to prevent blocking
             await asyncio.sleep(0)

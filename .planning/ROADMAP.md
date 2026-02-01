@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Web Infrastructure & Core Loop** - Web interface with real-time training and parameter control
 - [x] **Phase 2: Learning Metrics Dashboard** - Track learning progress through curves and metrics
-- [ ] **Phase 3: Advanced Visualization** - Visualize what agent learned (Q-values and policy)
+- [x] **Phase 3: Advanced Visualization** - Visualize what agent learned (Q-values and policy)
 
 ## Phase Details
 
@@ -63,8 +63,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — Backend Q-table transmission + toggle switch UI
-- [ ] 03-02-PLAN.md — GridRenderer overlay methods + wiring
+- [x] 03-01-PLAN.md — Backend Q-table transmission + toggle switch UI
+- [x] 03-02-PLAN.md — GridRenderer overlay methods + wiring
 
 ## Progress
 
@@ -75,4 +75,4 @@ Phases execute in numeric order: 1 → 2 → 3
 |-------|----------------|--------|-----------|
 | 1. Web Infrastructure & Core Loop | 4/4 | ✓ Complete | 2026-01-31 |
 | 2. Learning Metrics Dashboard | 2/2 | ✓ Complete | 2026-02-01 |
-| 3. Advanced Visualization | 0/2 | Not started | - |
+| 3. Advanced Visualization | 2/2 | Complete | 2026-02-01 |

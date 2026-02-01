@@ -341,6 +341,212 @@ class EpisodeStatistics {
 }
 
 // ============================================================================
+// ChartManager Class - Chart.js visualization management
+// ============================================================================
+
+class ChartManager {
+    constructor() {
+        this.rewardChart = null;
+        this.stepsChart = null;
+        this.epsilonChart = null;
+        this.paused = false;
+        this.pendingUpdates = [];  // Queue updates while paused
+    }
+
+    init() {
+        const chartConfig = {
+            type: 'line',
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: false,  // No animation for real-time updates
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Episode' }
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: { display: true, position: 'top' }
+                }
+            }
+        };
+
+        // Reward chart (raw + rolling average)
+        this.rewardChart = new Chart(document.getElementById('reward-chart'), {
+            ...chartConfig,
+            data: {
+                labels: [],
+                datasets: [
+                    {
+                        label: 'Reward',
+                        data: [],
+                        borderColor: 'rgb(75, 192, 192)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                        borderWidth: 1,
+                        pointRadius: 0,
+                        fill: false
+                    },
+                    {
+                        label: 'Rolling Avg (50)',
+                        data: [],
+                        borderColor: 'rgb(255, 99, 132)',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        pointRadius: 0,
+                        fill: false
+                    }
+                ]
+            }
+        });
+
+        // Steps chart (raw + rolling average)
+        this.stepsChart = new Chart(document.getElementById('steps-chart'), {
+            ...chartConfig,
+            data: {
+                labels: [],
+                datasets: [
+                    {
+                        label: 'Steps',
+                        data: [],
+                        borderColor: 'rgb(54, 162, 235)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                        borderWidth: 1,
+                        pointRadius: 0,
+                        fill: false
+                    },
+                    {
+                        label: 'Rolling Avg (50)',
+                        data: [],
+                        borderColor: 'rgb(255, 159, 64)',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        pointRadius: 0,
+                        fill: false
+                    }
+                ]
+            }
+        });
+
+        // Epsilon chart (single line)
+        this.epsilonChart = new Chart(document.getElementById('epsilon-chart'), {
+            ...chartConfig,
+            data: {
+                labels: [],
+                datasets: [
+                    {
+                        label: 'Epsilon',
+                        data: [],
+                        borderColor: 'rgb(153, 102, 255)',
+                        backgroundColor: 'rgba(153, 102, 255, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                ...chartConfig.options,
+                scales: {
+                    ...chartConfig.options.scales,
+                    y: {
+                        beginAtZero: true,
+                        max: 1.0
+                    }
+                }
+            }
+        });
+    }
+
+    addDataPoint(episode, reward, steps, epsilon, avgReward, avgSteps) {
+        if (this.paused) {
+            this.pendingUpdates.push({ episode, reward, steps, epsilon, avgReward, avgSteps });
+            return;
+        }
+
+        // Add to reward chart
+        this.rewardChart.data.labels.push(episode);
+        this.rewardChart.data.datasets[0].data.push(reward);
+        this.rewardChart.data.datasets[1].data.push(avgReward);
+        this.rewardChart.update('none');
+
+        // Add to steps chart
+        this.stepsChart.data.labels.push(episode);
+        this.stepsChart.data.datasets[0].data.push(steps);
+        this.stepsChart.data.datasets[1].data.push(avgSteps);
+        this.stepsChart.update('none');
+
+        // Add to epsilon chart
+        this.epsilonChart.data.labels.push(episode);
+        this.epsilonChart.data.datasets[0].data.push(epsilon);
+        this.epsilonChart.update('none');
+    }
+
+    pause() {
+        this.paused = true;
+        document.querySelector('.metrics-section').classList.add('paused');
+    }
+
+    resume() {
+        this.paused = false;
+        document.querySelector('.metrics-section').classList.remove('paused');
+
+        // Process queued updates
+        while (this.pendingUpdates.length > 0) {
+            const update = this.pendingUpdates.shift();
+            this.addDataPoint(
+                update.episode, update.reward, update.steps,
+                update.epsilon, update.avgReward, update.avgSteps
+            );
+        }
+    }
+
+    togglePause() {
+        if (this.paused) {
+            this.resume();
+        } else {
+            this.pause();
+        }
+        return this.paused;
+    }
+
+    clear() {
+        // Clear reward chart
+        this.rewardChart.data.labels = [];
+        this.rewardChart.data.datasets.forEach(ds => ds.data = []);
+        this.rewardChart.update('none');
+
+        // Clear steps chart
+        this.stepsChart.data.labels = [];
+        this.stepsChart.data.datasets.forEach(ds => ds.data = []);
+        this.stepsChart.update('none');
+
+        // Clear epsilon chart
+        this.epsilonChart.data.labels = [];
+        this.epsilonChart.data.datasets.forEach(ds => ds.data = []);
+        this.epsilonChart.update('none');
+
+        // Clear pending updates
+        this.pendingUpdates = [];
+    }
+
+    async loadFromStorage(storage, stats) {
+        const episodes = await storage.loadAll();
+        episodes.sort((a, b) => a.episode - b.episode);
+
+        for (const ep of episodes) {
+            stats.add(ep.episode, ep.reward, ep.steps);
+            this.addDataPoint(
+                ep.episode, ep.reward, ep.steps, ep.epsilon,
+                stats.getMeanReward(), stats.getMeanSteps()
+            );
+        }
+    }
+}
+
+// ============================================================================
 // Parameter Management
 // ============================================================================
 
@@ -431,6 +637,7 @@ let trainingActive = false;
 let wsClient = null;
 let metricsStorage = null;
 let episodeStats = null;
+let chartManager = null;
 
 function updateButtonStates() {
     const startBtn = document.getElementById('start-btn');
@@ -535,6 +742,29 @@ function loadQTable() {
     }
 }
 
+function updateStatisticsDisplay(latestReward = null, currentEpsilon = null) {
+    document.getElementById('stat-total-episodes').textContent = episodeStats.totalEpisodes;
+
+    if (latestReward !== null) {
+        document.getElementById('stat-latest-reward').textContent = latestReward.toFixed(1);
+    }
+
+    const avgReward = episodeStats.getMeanReward();
+    document.getElementById('stat-avg-reward').textContent = avgReward > 0 ? avgReward.toFixed(2) : '-';
+
+    const avgSteps = episodeStats.getMeanSteps();
+    document.getElementById('stat-avg-steps').textContent = avgSteps > 0 ? avgSteps.toFixed(1) : '-';
+
+    const best = episodeStats.getBest();
+    if (best.episode > 0) {
+        document.getElementById('stat-best-reward').textContent = `${best.reward.toFixed(1)} (ep ${best.episode})`;
+    }
+
+    if (currentEpsilon !== null) {
+        document.getElementById('stat-epsilon').textContent = currentEpsilon.toFixed(4);
+    }
+}
+
 // ============================================================================
 // Initialization
 // ============================================================================
@@ -559,6 +789,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Initialize statistics calculator (50-episode rolling window)
     episodeStats = new EpisodeStatistics(50);
     console.log('[Metrics] Statistics calculator initialized');
+
+    // Initialize chart manager
+    chartManager = new ChartManager();
+    chartManager.init();
+    console.log('[Metrics] Chart manager initialized');
+
+    // Load existing metrics from IndexedDB
+    await chartManager.loadFromStorage(metricsStorage, episodeStats);
+    updateStatisticsDisplay();
+    console.log('[Metrics] Loaded historical data from IndexedDB');
 
     // Register WebSocket event handlers
     wsClient.on('training_update', (data) => {
@@ -625,8 +865,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Update statistics
         episodeStats.add(data.episode, data.reward, data.steps);
 
-        // Log rolling average (chart integration in Plan 02)
-        console.log('[Metrics] Rolling avg reward:', episodeStats.getMeanReward().toFixed(2));
+        // Update charts
+        chartManager.addDataPoint(
+            data.episode, data.reward, data.steps, data.epsilon,
+            episodeStats.getMeanReward(), episodeStats.getMeanSteps()
+        );
+
+        // Update statistics display
+        updateStatisticsDisplay(data.reward, data.epsilon);
     });
 
     // Load saved parameters
@@ -652,6 +898,57 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('save-qtable-btn').addEventListener('click', saveQTable);
     document.getElementById('load-qtable-btn').addEventListener('click', loadQTable);
 
+    // Metrics control buttons
+    document.getElementById('pause-charts-btn').addEventListener('click', () => {
+        const isPaused = chartManager.togglePause();
+        document.getElementById('pause-charts-btn').textContent = isPaused ? 'Resume Charts' : 'Pause Charts';
+    });
+
+    document.getElementById('clear-metrics-btn').addEventListener('click', async () => {
+        if (confirm('Clear all metrics data? This cannot be undone.')) {
+            await metricsStorage.clear();
+            episodeStats.reset();
+            chartManager.clear();
+            updateStatisticsDisplay();
+            showNotification('Metrics cleared', 'info');
+        }
+    });
+
+    document.getElementById('export-csv-btn').addEventListener('click', async () => {
+        const episodes = await metricsStorage.loadAll();
+        if (episodes.length === 0) {
+            showNotification('No data to export', 'error');
+            return;
+        }
+
+        episodes.sort((a, b) => a.episode - b.episode);
+
+        const header = 'Episode,Reward,Steps,Epsilon,Timestamp\n';
+        const rows = episodes
+            .map(e => `${e.episode},${e.reward},${e.steps},${e.epsilon},${e.timestamp}`)
+            .join('\n');
+
+        const csv = header + rows;
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `rl-metrics-${Date.now()}.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+
+        showNotification(`Exported ${episodes.length} episodes`, 'success');
+    });
+
     // Initialize button states
     updateButtonStates();
+});
+
+// Handle window resize for charts
+window.addEventListener('resize', () => {
+    if (chartManager) {
+        chartManager.rewardChart.resize();
+        chartManager.stepsChart.resize();
+        chartManager.epsilonChart.resize();
+    }
 });

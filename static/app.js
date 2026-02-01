@@ -102,6 +102,146 @@ class GridRenderer {
         };
 
         this.maxTrailLength = 20;
+
+        // Visualization state
+        this.qTable = null;
+        this.showHeatmap = false;
+        this.showPolicyArrows = false;
+    }
+
+    // Q-table management
+    setQTable(qTable) {
+        this.qTable = qTable;
+    }
+
+    setShowHeatmap(show) {
+        this.showHeatmap = show;
+    }
+
+    setShowPolicyArrows(show) {
+        this.showPolicyArrows = show;
+    }
+
+    // Color interpolation: red (low Q-value) to green (high Q-value)
+    interpolateColor(value) {
+        // value: 0.0 = red, 1.0 = green
+        const red = Math.round(255 * (1 - value));
+        const green = Math.round(255 * value);
+        return `rgb(${red}, ${green}, 0)`;
+    }
+
+    // Calculate min/max Q-values for normalization
+    getQTableRange() {
+        if (!this.qTable) return { min: 0, max: 0 };
+        let min = Infinity;
+        let max = -Infinity;
+        for (let x = 0; x < this.gridSize; x++) {
+            for (let y = 0; y < this.gridSize; y++) {
+                const maxQ = Math.max(...this.qTable[x][y]);
+                min = Math.min(min, maxQ);
+                max = Math.max(max, maxQ);
+            }
+        }
+        return { min, max };
+    }
+
+    // Render Q-value heatmap overlay
+    renderHeatmapOverlay() {
+        if (!this.qTable) return;
+
+        const { min, max } = this.getQTableRange();
+
+        for (let x = 0; x < this.gridSize; x++) {
+            for (let y = 0; y < this.gridSize; y++) {
+                const maxQ = Math.max(...this.qTable[x][y]);
+                const normalized = (max === min) ? 0.5 : (maxQ - min) / (max - min);
+
+                // Draw colored cell with semi-transparency
+                this.ctx.fillStyle = this.interpolateColor(normalized);
+                this.ctx.globalAlpha = 0.5;
+                this.ctx.fillRect(
+                    x * this.cellSize,
+                    y * this.cellSize,
+                    this.cellSize,
+                    this.cellSize
+                );
+                this.ctx.globalAlpha = 1.0;
+
+                // Draw Q-value text (always visible per CONTEXT.md)
+                this.ctx.fillStyle = '#000';
+                this.ctx.font = 'bold 11px sans-serif';
+                this.ctx.textAlign = 'center';
+                this.ctx.textBaseline = 'middle';
+                this.ctx.fillText(
+                    maxQ.toFixed(1),
+                    (x + 0.5) * this.cellSize,
+                    (y + 0.5) * this.cellSize
+                );
+            }
+        }
+    }
+
+    // Render policy arrows showing best action(s) per state
+    renderPolicyArrows() {
+        if (!this.qTable) return;
+
+        const arrowSize = this.cellSize * 0.2;
+
+        for (let x = 0; x < this.gridSize; x++) {
+            for (let y = 0; y < this.gridSize; y++) {
+                const qValues = this.qTable[x][y];
+                const maxQ = Math.max(...qValues);
+
+                // Skip unexplored states (all zeros) per CONTEXT.md
+                if (maxQ === 0 && Math.min(...qValues) === 0) continue;
+
+                // Find best actions (handle ties per CONTEXT.md)
+                const bestActions = qValues
+                    .map((q, i) => ({ q, i }))
+                    .filter(a => a.q === maxQ)
+                    .map(a => a.i);
+
+                const centerX = (x + 0.5) * this.cellSize;
+                const centerY = (y + 0.5) * this.cellSize;
+
+                this.ctx.fillStyle = '#333'; // Dark gray for contrast per CONTEXT.md
+
+                for (const action of bestActions) {
+                    this.drawArrow(centerX, centerY, action, arrowSize);
+                }
+            }
+        }
+    }
+
+    // Draw triangle arrow pointing in action direction
+    drawArrow(cx, cy, direction, size) {
+        // Action encoding: 0=up, 1=down, 2=left, 3=right (per STATE.md decision)
+        const angles = [-Math.PI / 2, Math.PI / 2, Math.PI, 0];
+        const angle = angles[direction];
+
+        // Offset from center based on direction to avoid overlap
+        const offset = this.cellSize * 0.25;
+        const offsets = [
+            [0, -offset],  // up
+            [0, offset],   // down
+            [-offset, 0],  // left
+            [offset, 0]    // right
+        ];
+        const [ox, oy] = offsets[direction];
+
+        this.ctx.save();
+        this.ctx.translate(cx + ox, cy + oy);
+        this.ctx.rotate(angle);
+
+        // Draw triangle pointing right (then rotated)
+        this.ctx.beginPath();
+        this.ctx.moveTo(size, 0);              // Point
+        this.ctx.lineTo(-size * 0.5, -size * 0.6);  // Top-left
+        this.ctx.lineTo(-size * 0.5, size * 0.6);   // Bottom-left
+        this.ctx.closePath();
+        this.ctx.fill();
+
+        this.ctx.restore();
     }
 
     update(newState) {
@@ -124,24 +264,32 @@ class GridRenderer {
         this.ctx.fillStyle = '#f5f5f5';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // Draw grid lines
+        // Layer 1: Heatmap overlay (under grid lines)
+        if (this.showHeatmap && this.qTable) {
+            this.renderHeatmapOverlay();
+        }
+
+        // Layer 2: Grid lines
         this.ctx.strokeStyle = '#ddd';
         this.ctx.lineWidth = 1;
         for (let i = 0; i <= this.gridSize; i++) {
             const pos = i * this.cellSize;
-            // Vertical lines
             this.ctx.beginPath();
             this.ctx.moveTo(pos, 0);
             this.ctx.lineTo(pos, this.canvas.height);
             this.ctx.stroke();
-            // Horizontal lines
             this.ctx.beginPath();
             this.ctx.moveTo(0, pos);
             this.ctx.lineTo(this.canvas.width, pos);
             this.ctx.stroke();
         }
 
-        // Draw obstacles (dark filled squares)
+        // Layer 3: Policy arrows (after grid lines, before obstacles)
+        if (this.showPolicyArrows && this.qTable) {
+            this.renderPolicyArrows();
+        }
+
+        // Layer 4: Obstacles (dark filled squares)
         this.ctx.fillStyle = '#333';
         for (const [x, y] of this.state.obstacles) {
             this.ctx.fillRect(
@@ -152,10 +300,9 @@ class GridRenderer {
             );
         }
 
-        // Draw trail with fading opacity effect
+        // Layer 5: Trail with fading opacity effect
         for (let i = 0; i < this.state.trail.length; i++) {
             const [x, y] = this.state.trail[i];
-            // Opacity increases for more recent positions
             const opacity = (i + 1) / this.state.trail.length * 0.3;
             this.ctx.fillStyle = `rgba(100, 150, 255, ${opacity})`;
             this.ctx.fillRect(
@@ -166,7 +313,7 @@ class GridRenderer {
             );
         }
 
-        // Draw goal (green circle)
+        // Layer 6: Goal (green circle)
         const [gx, gy] = this.state.goal_pos;
         this.ctx.fillStyle = '#4caf50';
         this.ctx.beginPath();
@@ -179,7 +326,7 @@ class GridRenderer {
         );
         this.ctx.fill();
 
-        // Draw agent (red circle)
+        // Layer 7: Agent (red circle - top layer)
         if (this.state.agent_pos) {
             const [ax, ay] = this.state.agent_pos;
             this.ctx.fillStyle = '#ff6b6b';

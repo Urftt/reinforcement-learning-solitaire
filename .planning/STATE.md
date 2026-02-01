@@ -5,34 +5,34 @@
 See: .planning/PROJECT.md (updated 2026-01-30)
 
 **Core value:** A modern web interface where I can experiment with RL algorithms, adjust parameters, and see learning happen in real-time through visualizations and metrics - making RL concepts concrete through hands-on exploration.
-**Current focus:** Phase 2: Learning Metrics Dashboard - In Progress
+**Current focus:** Phase 2: Learning Metrics Dashboard - Complete
 
 ## Current Position
 
 Phase: 2 of 3 (Learning Metrics Dashboard)
-Plan: 1 of 2 in current phase
-Status: In progress
-Last activity: 2026-02-01 - Completed 02-01-PLAN.md (Metrics Data Layer)
+Plan: 2 of 2 in current phase
+Status: Phase complete
+Last activity: 2026-02-01 - Completed 02-02-PLAN.md (Chart Visualization)
 
-Progress: [█████░░░░░] ~50%
+Progress: [██████░░░░] ~60%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 5
-- Average duration: 2h 42min
-- Total execution time: 13h 32min
+- Total plans completed: 6
+- Average duration: 2h 16min
+- Total execution time: 13h 38min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01 | 4/4 | 13h 29m | 3h 22m |
-| 02 | 1/2 | 4m | 4m |
+| 02 | 2/2 | 10m | 5m |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (5 min), 01-02 (4 min), 01-03 (16 min), 01-04 (10h 40m), 02-01 (4 min)
-- Trend: 02-01 executed cleanly with no deviations
+- Last 5 plans: 01-02 (4 min), 01-03 (16 min), 01-04 (10h 40m), 02-01 (4 min), 02-02 (6 min)
+- Trend: Phase 02 plans executed quickly with no deviations
 
 *Updated after each plan completion*
 
@@ -63,6 +63,10 @@ Recent decisions affecting current work:
 - 50-episode rolling window for statistics (02-01): Balances smoothing with recent data sensitivity
 - IndexedDB for metrics persistence (02-01): Survives page refresh, no server storage needed
 - Separate episode_complete event (02-01): Maintains per-step visualization while adding episode-level metrics
+- Chart.js CDN (02-02): No build step needed, simple integration
+- Animation disabled for charts (02-02): Real-time updates without lag
+- Update queueing while paused (02-02): No data loss when charts are paused
+- CSV export with timestamp (02-02): External analysis correlation
 
 ### Pending Todos
 
@@ -70,12 +74,12 @@ None yet.
 
 ### Blockers/Concerns
 
-None - Phase 2 Plan 01 complete and ready for Plan 02.
+None - Phase 2 complete and ready for Phase 3.
 
 ## Session Continuity
 
-Last session: 2026-02-01 13:04 UTC
-Stopped at: Completed 02-01-PLAN.md (Metrics Data Layer)
+Last session: 2026-02-01 13:16 UTC
+Stopped at: Completed 02-02-PLAN.md (Chart Visualization)
 Resume file: None
 
 ## Phase 1 Complete
@@ -91,26 +95,22 @@ All Phase 1 requirements verified and operational:
 
 **User verification:** "yes that's perfect!"
 
-## Phase 2 Progress
+## Phase 2 Complete
 
-**Plan 02-01 Complete:**
+All Phase 2 requirements verified and operational:
 - episode_complete WebSocket event broadcasting reward/steps/epsilon
 - MetricsStorage class with IndexedDB persistence
 - EpisodeStatistics class with 50-episode rolling averages
-- Console logging verifies data flow
-
-**Next: Plan 02-02**
-- Chart visualization consuming metrics data layer
-- Real-time learning curve display
+- Three Chart.js charts (rewards, steps, epsilon) with real-time updates
+- Statistics panel showing total episodes, latest/avg/best reward, avg steps, epsilon
+- Pause/Resume button that queues updates while paused
+- Clear Data button that wipes IndexedDB and resets charts
+- Export CSV button that downloads episode metrics with timestamp
+- Charts reload from IndexedDB on page refresh
 
 ## Next Steps
 
-**Immediate: Plan 02-02**
-- Implement chart visualization for learning curve
-- Wire chart to episode_complete events
-- Display rolling averages visually
-
-**After Phase 2:**
-- Phase 3: Q-Value Exploration
+**Immediate: Phase 03**
+- Q-Value Exploration
 - Interactive Q-table visualization
 - Policy arrow overlays

@@ -48,17 +48,17 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Q-Value Visualization
 
-- [ ] **QVAL-01**: User can view Q-value heatmap for all grid states
-- [ ] **QVAL-02**: Q-values update in real-time as agent learns
-- [ ] **QVAL-03**: Color scale clearly shows relative state values
-- [ ] **QVAL-04**: User can toggle Q-value display on/off
+- [x] **QVAL-01**: User can view Q-value heatmap for all grid states
+- [x] **QVAL-02**: Q-values update in real-time as agent learns
+- [x] **QVAL-03**: Color scale clearly shows relative state values
+- [x] **QVAL-04**: User can toggle Q-value display on/off
 
 ### Policy Visualization
 
-- [ ] **POL-01**: User can view learned policy as action arrows on grid
-- [ ] **POL-02**: Policy arrows show best action for each state
-- [ ] **POL-03**: Policy visualization updates as agent learns
-- [ ] **POL-04**: User can toggle policy display on/off
+- [x] **POL-01**: User can view learned policy as action arrows on grid
+- [x] **POL-02**: Policy arrows show best action for each state
+- [x] **POL-03**: Policy visualization updates as agent learns
+- [x] **POL-04**: User can toggle policy display on/off
 
 ### Q-Learning Implementation
 
@@ -116,43 +116,43 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| WEB-01 | Phase 1 | Pending |
-| WEB-02 | Phase 1 | Pending |
-| WEB-03 | Phase 1 | Pending |
-| WEB-04 | Phase 1 | Pending |
-| TRAIN-01 | Phase 1 | Pending |
-| TRAIN-02 | Phase 1 | Pending |
-| TRAIN-03 | Phase 1 | Pending |
-| TRAIN-04 | Phase 1 | Pending |
-| TRAIN-05 | Phase 1 | Pending |
-| TRAIN-06 | Phase 1 | Pending |
-| PARAM-01 | Phase 1 | Pending |
-| PARAM-02 | Phase 1 | Pending |
-| PARAM-03 | Phase 1 | Pending |
-| PARAM-04 | Phase 1 | Pending |
-| PARAM-05 | Phase 1 | Pending |
-| VIZ-01 | Phase 1 | Pending |
-| VIZ-02 | Phase 1 | Pending |
-| VIZ-03 | Phase 1 | Pending |
-| VIZ-04 | Phase 1 | Pending |
-| QL-01 | Phase 1 | Pending |
-| QL-02 | Phase 1 | Pending |
-| QL-03 | Phase 1 | Pending |
-| QL-04 | Phase 1 | Pending |
-| QL-05 | Phase 1 | Pending |
+| WEB-01 | Phase 1 | Complete |
+| WEB-02 | Phase 1 | Complete |
+| WEB-03 | Phase 1 | Complete |
+| WEB-04 | Phase 1 | Complete |
+| TRAIN-01 | Phase 1 | Complete |
+| TRAIN-02 | Phase 1 | Complete |
+| TRAIN-03 | Phase 1 | Complete |
+| TRAIN-04 | Phase 1 | Complete |
+| TRAIN-05 | Phase 1 | Complete |
+| TRAIN-06 | Phase 1 | Complete |
+| PARAM-01 | Phase 1 | Complete |
+| PARAM-02 | Phase 1 | Complete |
+| PARAM-03 | Phase 1 | Complete |
+| PARAM-04 | Phase 1 | Complete |
+| PARAM-05 | Phase 1 | Complete |
+| VIZ-01 | Phase 1 | Complete |
+| VIZ-02 | Phase 1 | Complete |
+| VIZ-03 | Phase 1 | Complete |
+| VIZ-04 | Phase 1 | Complete |
+| QL-01 | Phase 1 | Complete |
+| QL-02 | Phase 1 | Complete |
+| QL-03 | Phase 1 | Complete |
+| QL-04 | Phase 1 | Complete |
+| QL-05 | Phase 1 | Complete |
 | METRIC-01 | Phase 2 | Complete |
 | METRIC-02 | Phase 2 | Complete |
 | METRIC-03 | Phase 2 | Complete |
 | METRIC-04 | Phase 2 | Complete |
 | METRIC-05 | Phase 2 | Complete |
-| QVAL-01 | Phase 3 | Pending |
-| QVAL-02 | Phase 3 | Pending |
-| QVAL-03 | Phase 3 | Pending |
-| QVAL-04 | Phase 3 | Pending |
-| POL-01 | Phase 3 | Pending |
-| POL-02 | Phase 3 | Pending |
-| POL-03 | Phase 3 | Pending |
-| POL-04 | Phase 3 | Pending |
+| QVAL-01 | Phase 3 | Complete |
+| QVAL-02 | Phase 3 | Complete |
+| QVAL-03 | Phase 3 | Complete |
+| QVAL-04 | Phase 3 | Complete |
+| POL-01 | Phase 3 | Complete |
+| POL-02 | Phase 3 | Complete |
+| POL-03 | Phase 3 | Complete |
+| POL-04 | Phase 3 | Complete |
 
 **Coverage:**
 - v1 requirements: 33 total
